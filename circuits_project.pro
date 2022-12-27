@@ -9,17 +9,24 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    componentgroup.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    pin.cpp \
-    view.cpp
+    Backend/circuit.cpp \
+    Backend/component.cpp \
+    Backend/interface.cpp \
+    Frontend/componentcontainer.cpp \
+    Frontend/main.cpp \
+    Frontend/mainwindow.cpp \
+    Frontend/pin.cpp \
+    Frontend/view.cpp
 
 HEADERS += \
-    componentgroup.h \
-    mainwindow.h \
-    pin.h \
-    view.h
+    Backend/circuit.h \
+    Backend/component.h \
+    Backend/interface.h \
+    Frontend/componentcontainer.h \
+    Frontend/constants.h \
+    Frontend/mainwindow.h \
+    Frontend/pin.h \
+    Frontend/view.h
 
 FORMS +=
 

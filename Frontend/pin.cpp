@@ -1,6 +1,8 @@
+//HEADERS
 #include "pin.h"
-#include "qbrush.h"
-#include <iostream>
+
+//QT
+#include <QtGui/qbrush.h>
 
 Pin::Pin(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent):
     QGraphicsEllipseItem(x, y, width, height, parent)
@@ -21,16 +23,15 @@ Pin::Pin(QGraphicsItem *parent):
 }
 
 void Pin::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
-    QBrush pinBrush = brush();
-    pinBrush.setColor(pinBrush.color().lighter(150));
-    setBrush(QBrush{pinBrush});
+    QBrush tempBrush = brush();
+    tempBrush.setColor(QColor{Qt::green}.lighter(150));
+    setBrush(tempBrush);
     update();
 }
 
 void Pin::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
-    std::cout << "test";
-    QBrush pinBrush = brush();
-    pinBrush.setColor(pinBrush.color().darker(150));
-    setBrush(QBrush{pinBrush});
+    QBrush tempBrush = brush();
+    tempBrush.setColor(Qt::green);
+    setBrush(tempBrush);
     update();
 }

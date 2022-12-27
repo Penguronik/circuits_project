@@ -1,23 +1,33 @@
-#include "mainwindow.h"
+//UTIL
+#include "constants.h"
+
+//QT
 #include <QGraphicsItem>
-#include "componentgroup.h"
-#include "qevent.h"
+#include <QtGui/qevent.h>
+
+//HEADERS
+#include "mainwindow.h"
+#include "componentcontainer.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent),
-    scene{new QGraphicsScene{this}}
+    : QWidget{parent},
+    scene{new QGraphicsScene{this}}, //Consider creating a class for the scene at a point if the MainWindow class instead inherits MainWindow and you add gui elements surrounding the scene in the middle, so its more grouped
+    view{new View(scene, this)}
 {
-    scene->setSceneRect(0,0,500,500);
-    view = new View(this);
-    view->setScene(scene);
-    view->setFixedSize(500, 500);
-    view->setSceneRect(0, 0, 500, 500);
-    view->fitInView(0, 0, 500, 500, Qt::KeepAspectRatio);
-    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ComponentGroup *test = new ComponentGroup{};
+    scene->setSceneRect(0, 0, constant::WIDTH, constant::HEIGHT);
+
+
+    Interface *interface{new Interface{}};
+
+    Component component_1{interface->newComponent()};
+
+    ComponentContainer *test2{new ComponentContainer{component_1}}
+
+
+
+    ComponentContainer *test{new ComponentContainer{}};
     scene->addItem(test);
-    test->setHandlesChildEvents(false); //doing this for now, might me a better idea to switch to having
     test->setX(200);
     test->setY(200);
     test->setFlag(QGraphicsItem::ItemIsMovable);
@@ -42,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
-    QSize size = event->size();
+    QSize size{event->size()};
     view->setFixedSize(size.width(), size.height());
     view->setSceneRect(0, 0, size.width(), size.height());
     view->fitInView(0, 0, size.width(), size.height(), Qt::KeepAspectRatio);
