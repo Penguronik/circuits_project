@@ -16,7 +16,7 @@ public:
     virtual void resizeEvent(QResizeEvent *event) override;
 
 private:
-    QGraphicsScene *scene;
-    View *view;
+    QGraphicsScene *scene_;
+    View *view_;
 };
 #endif // MAINWINDOW_H

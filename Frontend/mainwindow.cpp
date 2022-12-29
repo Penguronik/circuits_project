@@ -14,10 +14,10 @@
 
 MainWindow::MainWindow(QWidget *parent):
     QWidget{parent},
-    scene{new QGraphicsScene{this}}, //Consider creating a class for the scene at a point if the MainWindow class instead inherits MainWindow and you add gui elements surrounding the scene in the middle, so its more grouped
-    view{new View(scene, this)}
+    scene_{new QGraphicsScene{this}}, //Consider creating a class for the scene at a point if the MainWindow class instead inherits MainWindow and you add gui elements surrounding the scene in the middle, so its more grouped
+    view_{new View(scene_, this)}
 {
-    scene->setSceneRect(0, 0, constant::WIDTH, constant::HEIGHT);
+    scene_->setSceneRect(0, 0, constant::WIDTH, constant::HEIGHT);
 
 
     Interface *interface{new Interface{}};
@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     ComponentContainer *test{new ComponentContainer{circuit_1}};
 
-    scene->addItem(test);
+    scene_->addItem(test);
     test->setX(200);
     test->setY(200);
     test->setFlag(QGraphicsItem::ItemIsMovable);
@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent):
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
     QSize size{event->size()};
-    view->setFixedSize(size.width(), size.height());
-    view->setSceneRect(0, 0, size.width(), size.height());
-    view->fitInView(0, 0, size.width(), size.height(), Qt::KeepAspectRatio);
+    view_->setFixedSize(size.width(), size.height());
+    view_->setSceneRect(0, 0, size.width(), size.height());
+    view_->fitInView(0, 0, size.width(), size.height(), Qt::KeepAspectRatio);
 }

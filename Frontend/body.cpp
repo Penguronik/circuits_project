@@ -13,10 +13,10 @@ Body::Body(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent):
 
 void Body::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     QPainterPath path{};
-    path.addRoundedRect(rect(), 5, 5);
+    path.addRoundedRect(rect().x(), rect().y(), rect().width()-1, rect().height()-1, 5, 5);
     painter->setPen(QPen{Qt::black, 2});
+    painter->setBrush(Qt::gray);
     painter->drawPath(path);
-    painter->fillPath(path, Qt::gray);
 }
 
 QPainterPath Body::shape() const {
