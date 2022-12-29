@@ -8,18 +8,21 @@ Pin::Pin(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent):
     QGraphicsEllipseItem(x, y, width, height, parent)
 {
     setAcceptHoverEvents(true);
+    setBrush(QBrush{Qt::green});
 }
 
 Pin::Pin(const QRectF &rect, QGraphicsItem *parent):
     QGraphicsEllipseItem(rect, parent)
 {
     setAcceptHoverEvents(true);
+    setBrush(QBrush{Qt::green});
 }
 
 Pin::Pin(QGraphicsItem *parent):
     QGraphicsEllipseItem(parent)
 {
     setAcceptHoverEvents(true);
+    setBrush(QBrush{Qt::green});
 }
 
 void Pin::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {

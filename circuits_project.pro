@@ -10,8 +10,9 @@ CONFIG += c++17
 
 SOURCES += \
     Backend/circuit.cpp \
-    Backend/component.cpp \
+    Backend/gates.cpp \
     Backend/interface.cpp \
+    Frontend/body.cpp \
     Frontend/componentcontainer.cpp \
     Frontend/main.cpp \
     Frontend/mainwindow.cpp \
@@ -20,8 +21,9 @@ SOURCES += \
 
 HEADERS += \
     Backend/circuit.h \
-    Backend/component.h \
+    Backend/gates.h \
     Backend/interface.h \
+    Frontend/body.h \
     Frontend/componentcontainer.h \
     Frontend/constants.h \
     Frontend/mainwindow.h \

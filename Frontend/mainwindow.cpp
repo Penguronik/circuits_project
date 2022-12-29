@@ -6,12 +6,14 @@
 #include <QtGui/qevent.h>
 
 //HEADERS
+#include "Backend/interface.h"
+#include "Backend/gates.h"
 #include "mainwindow.h"
 #include "componentcontainer.h"
 
 
-MainWindow::MainWindow(QWidget *parent)
-    : QWidget{parent},
+MainWindow::MainWindow(QWidget *parent):
+    QWidget{parent},
     scene{new QGraphicsScene{this}}, //Consider creating a class for the scene at a point if the MainWindow class instead inherits MainWindow and you add gui elements surrounding the scene in the middle, so its more grouped
     view{new View(scene, this)}
 {
@@ -20,13 +22,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     Interface *interface{new Interface{}};
 
-    Component component_1{interface->newComponent()};
+//    Component *component_1{new Component{interface->newComponent()}}; //Component may be already used by qt?
 
-    ComponentContainer *test2{new ComponentContainer{component_1}}
+    Circuit *circuit_1{new NOTGate{}};
 
+    ComponentContainer *test{new ComponentContainer{circuit_1}};
 
-
-    ComponentContainer *test{new ComponentContainer{}};
     scene->addItem(test);
     test->setX(200);
     test->setY(200);
