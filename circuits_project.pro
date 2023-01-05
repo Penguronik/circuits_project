@@ -17,7 +17,9 @@ SOURCES += \
     Frontend/main.cpp \
     Frontend/mainwindow.cpp \
     Frontend/pin.cpp \
-    Frontend/view.cpp
+    Frontend/scene.cpp \
+    Frontend/view.cpp \
+    Frontend/wire.cpp
 
 HEADERS += \
     Backend/circuit.h \
@@ -28,7 +30,9 @@ HEADERS += \
     Frontend/constants.h \
     Frontend/mainwindow.h \
     Frontend/pin.h \
-    Frontend/view.h
+    Frontend/scene.h \
+    Frontend/view.h \
+    Frontend/wire.h
 
 FORMS +=
 

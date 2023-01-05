@@ -1,5 +1,6 @@
 //UTIL
 #include "constants.h"
+#include <iostream>
 
 //QT
 #include <QGraphicsItem>
@@ -9,29 +10,39 @@
 #include "Backend/interface.h"
 #include "Backend/gates.h"
 #include "mainwindow.h"
-#include "componentcontainer.h"
+#include "pin.h"
 
 
 MainWindow::MainWindow(QWidget *parent):
     QWidget{parent},
-    scene_{new QGraphicsScene{this}}, //Consider creating a class for the scene at a point if the MainWindow class instead inherits MainWindow and you add gui elements surrounding the scene in the middle, so its more grouped
-    view_{new View(scene_, this)}
+    scene_{new Scene{this}},
+    view_{new View(scene_, this)},
+    containerList_{new QList<ComponentContainer*>}
 {
     scene_->setSceneRect(0, 0, constant::WIDTH, constant::HEIGHT);
 
 
-    Interface *interface{new Interface{}};
+//    Interface *interface{new Interface{}};
 
 //    Component *component_1{new Component{interface->newComponent()}}; //Component may be already used by qt?
 
-    Circuit *circuit_1{new NOTGate{}};
 
-    ComponentContainer *test{new ComponentContainer{circuit_1}};
+    for (int i{}; i < 3; i++){
+        Circuit *circuit{new NOTGate{}};
+        ComponentContainer *container{new ComponentContainer{circuit}};
+        std::cout << container << "<- container address";
+        containerList_->append(container);
+        scene_->addItem(container);
+    }
 
-    scene_->addItem(test);
-    test->setX(200);
-    test->setY(200);
-    test->setFlag(QGraphicsItem::ItemIsMovable);
+//    Circuit *circuit_1{new NOTGate{}};
+
+//    ComponentContainer *test{new ComponentContainer{circuit_1}};
+
+//    scene_->addItem(test);
+//    test->setX(200);
+//    test->setY(200);
+//    test->setFlag(QGraphicsItem::ItemIsMovable);
 
 
 

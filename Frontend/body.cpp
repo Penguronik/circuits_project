@@ -2,9 +2,9 @@
 #include "qpainter.h"
 
 Body::Body(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent):
-    QGraphicsRectItem{x, y, width, height, parent}
+    QGraphicsRectItem{0, 0, width, height, parent} // Original rectangle is set to 0, 0 in order to use pos() instead of boundingrect() to follow position
 {
-
+    setPos(x, y);
 }
 
 //QRectF Body::boundingRect() const{

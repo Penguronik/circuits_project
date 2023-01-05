@@ -3,6 +3,7 @@
 
 //HEADERS
 #include "Backend/circuit.h"
+#include "body.h"
 #include "pin.h"
 
 //QT
@@ -14,15 +15,29 @@ class ComponentContainer : public QGraphicsItem
 {
 //    Q_OBJECT If you want to use q object properties, reinclude this and also inherit QGraphicsObject instead
 public:
+
+    // Enums
+    //
+    enum{Type = UserType + 2};
+
+    // Constructors
+    //
     explicit ComponentContainer(Circuit *circuit, QGraphicsItem *parent = nullptr);
+
+    // Getters
+    //
     virtual QRectF boundingRect() const override;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     virtual QPainterPath shape() const override;
+    inline int type() const override { return Type; }
+
+    // Public Functions
+    //
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void generateStatePins();
     void generateOutPins();
 
 private:
-    QGraphicsRectItem *body_; //possible change from rectitem to custom item, but that is a future thing and likely may not be necessary
+    Body *body_;
     QList<Pin*> *statePinList_;
     QList<Pin*> *outPinList_;
     Circuit *circuit_; //rename, but to what?
