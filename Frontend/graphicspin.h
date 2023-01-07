@@ -1,14 +1,15 @@
-#ifndef PIN_H
-#define PIN_H
+#ifndef GRAPHICSPIN_H
+#define GRAPHICSPIN_H
 
 // Headers
+#include "Backend/pinbase.h"
 #include "wire.h"
 
 // QT
 #include <QGraphicsEllipseItem>
 #include <QRubberBand>
 
-class Pin : public QGraphicsEllipseItem
+class GraphicsPin : public QGraphicsEllipseItem
 {
 public:
 
@@ -20,8 +21,8 @@ public:
 
     // Constructors
     //
-    explicit Pin(qreal x, qreal y, qreal width, qreal height, Role role, QGraphicsItem *parent = nullptr);
-    explicit Pin(const QRectF &rect, Role role, QGraphicsItem *parent = nullptr);
+    explicit GraphicsPin(qreal x, qreal y, qreal width, qreal height, Role role, QGraphicsItem *parent = nullptr);
+    explicit GraphicsPin(const QRectF &rect, Role role, QGraphicsItem *parent = nullptr);
 //    explicit Pin(QGraphicsItem *parent = nullptr);
 
     // Events
@@ -51,7 +52,8 @@ public:
 
 private:
     Role role_;
+    PinBase pin_;
 
 };
 
-#endif // PIN_H
+#endif // GRAPHICSPIN_H

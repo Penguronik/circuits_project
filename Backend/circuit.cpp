@@ -1,28 +1,30 @@
 #include "circuit.h"
 
-Circuit::Circuit(int stateSize, int outSize):
-    stateSize_{stateSize},
+Circuit::Circuit(int inSize, int outSize):
+    inSize_{inSize},
     outSize_{outSize},
-    stateArray_{new bool[stateSize_]{false}},
-    outArray_{new bool *[outSize_]{nullptr}},
+    pinInArray_{new PinIn[inSize_]{}},
+    pinOutArray_{new PinOut[outSize_]{}},
     connectedCircuitArray_{new Circuit *[outSize_]{nullptr}}
 {
 
 }
 
 Circuit::~Circuit(){
-    delete[] stateArray_;
-    delete[] outArray_;
+    delete[] pinInArray_;
+    delete[] pinOutArray_;
     delete[] connectedCircuitArray_;
 }
 
-bool &Circuit::in(int index) const{
-    return stateArray_[index];
+void Circuit::connect(Circuit &inCircuit, int pinInIndex, Circuit &outCircuit, int pinOutIndex) {
+    bool *state { new bool{false}};
+    inCircuit.pinInArray_[pinInIndex].inList_.append(state);
+    outCircuit.pinOutArray_[pinOutIndex].outList_.append(state);
+    outCircuit.connectedCircuitArray_[pinOutIndex] = &inCircuit;
 }
 
-void Circuit::out(int outIndex, Circuit &inCircuit, int inIndex){
-    outArray_[outIndex] = &inCircuit.stateArray_[inIndex];
-    connectedCircuitArray_[outIndex] = &inCircuit;
+void Circuit::connect(Circuit *inCircuit, int pinInIndex, Circuit *outCircuit, int pinOutIndex) {
+    connect(*inCircuit, pinInIndex, *outCircuit, pinOutIndex);
 }
 
 void Circuit::propogate(int index){
@@ -35,9 +37,9 @@ void Circuit::propogateAll(){
     }
 }
 
-int Circuit::stateSize() const
+int Circuit::inSize() const
 {
-    return stateSize_;
+    return inSize_;
 }
 
 int Circuit::outSize() const

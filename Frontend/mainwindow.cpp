@@ -10,7 +10,7 @@
 #include "Backend/interface.h"
 #include "Backend/gates.h"
 #include "mainwindow.h"
-#include "pin.h"
+#include "graphicspin.h"
 
 
 MainWindow::MainWindow(QWidget *parent):
@@ -34,6 +34,12 @@ MainWindow::MainWindow(QWidget *parent):
         containerList_->append(container);
         scene_->addItem(container);
     }
+
+    Circuit *circuit{new ANDGate{}};
+    ComponentContainer *container{new ComponentContainer{circuit}};
+    std::cout << container << "<- container address";
+    containerList_->append(container);
+    scene_->addItem(container);
 
 //    Circuit *circuit_1{new NOTGate{}};
 

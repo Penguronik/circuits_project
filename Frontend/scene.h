@@ -3,7 +3,7 @@
 
 // HEADERS
 #include "wire.h"
-#include "pin.h"
+#include "graphicspin.h"
 
 // QT
 #include <QGraphicsScene>
@@ -25,7 +25,7 @@ public:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
-    Pin *currentPin;
+    GraphicsPin *currentPin;
     Wire *currentWire;
 };
 

@@ -1,5 +1,5 @@
 //HEADERS
-#include "pin.h"
+#include "graphicspin.h"
 #include "wire.h"
 
 //QT
@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-Pin::Pin(qreal x, qreal y, qreal width, qreal height, Role role, QGraphicsItem *parent):
+GraphicsPin::GraphicsPin(qreal x, qreal y, qreal width, qreal height, Role role, QGraphicsItem *parent):
     QGraphicsEllipseItem{0, 0, width, height, parent}, // Original rectangle is set to 0, 0 in order to use pos() instead of boundingrect() to follow position
     wireList_{},
     role_{role}
@@ -27,35 +27,35 @@ Pin::Pin(qreal x, qreal y, qreal width, qreal height, Role role, QGraphicsItem *
     std::cout << "bouunding rect x: " << mapToScene(boundingRect().center()).x() << "bouunding rect y: " << mapToScene(boundingRect().center()).y() << std::endl;
 }
 
-Pin::Pin(const QRectF &rect, Role role, QGraphicsItem *parent):
-    Pin{rect.x(), rect.y(), rect.width(), rect.height(), role, parent}
+GraphicsPin::GraphicsPin(const QRectF &rect, Role role, QGraphicsItem *parent):
+    GraphicsPin{rect.x(), rect.y(), rect.width(), rect.height(), role, parent}
 {
 
 }
 
-void Pin::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+void GraphicsPin::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
     QBrush tempBrush = brush();
     tempBrush.setColor(QColor{Qt::green}.lighter(150));
     setBrush(tempBrush);
     update();
 }
 
-void Pin::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
+void GraphicsPin::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
     QBrush tempBrush = brush();
     tempBrush.setColor(Qt::green);
     setBrush(tempBrush);
     update();
 }
 
-QVariant Pin::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
+QVariant GraphicsPin::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
     if (change == QGraphicsItem::ItemScenePositionHasChanged) {
         QList<Wire*>::iterator i{};
         for (i = wireList_.begin(); i != wireList_.end(); ++i) {
             QLineF lineShape{(*i)->line()};
-            if( role() == Pin::State) {
+            if( role() == GraphicsPin::State) {
                 lineShape.setP1(sceneBoundingRect().center());
             }
-            else if ( role() == Pin::Out) {
+            else if ( role() == GraphicsPin::Out) {
                 lineShape.setP2(sceneBoundingRect().center());
             }
             (*i)->setLine(lineShape);
@@ -65,12 +65,12 @@ QVariant Pin::itemChange(QGraphicsItem::GraphicsItemChange change, const QVarian
     return QGraphicsItem::itemChange(change, value);
 }
 
-Pin::Role Pin::role() const
+GraphicsPin::Role GraphicsPin::role() const
 {
     return role_;
 }
 
-void Pin::setRole(Pin::Role role)
+void GraphicsPin::setRole(GraphicsPin::Role role)
 {
     role_ = role;
 }

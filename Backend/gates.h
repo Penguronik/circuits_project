@@ -12,7 +12,8 @@ class NOTGate : public Circuit {
         }
 
     virtual void run() override {
-        *outArray_[0] = !stateArray_[0];
+
+        pinOutArray_[0].set(!pinInArray_[0].state());
         propogateAll();
     }
 };
@@ -24,7 +25,7 @@ class ANDGate : public Circuit {
         { }
 
     virtual void run() override {
-        *outArray_[0] = stateArray_[0] && stateArray_[1];
+        pinOutArray_[0].set(pinInArray_[0].state() && pinInArray_[1].state());
         propogateAll();
     }
 
@@ -37,7 +38,7 @@ class ORGate : public Circuit {
         }
 
         virtual void run() override {
-            *outArray_[0] = stateArray_[0] || stateArray_[1];
+            pinOutArray_[0].set(pinInArray_[0].state() || pinInArray_[1].state());
             propogateAll();
         }
 
@@ -53,10 +54,12 @@ class Board : public Circuit {
         virtual void run() override {
         }
 
-        void run(int input[], int size) {
+        void run(bool input[], int size) {
+//            std::cout << "hello";
             assert(outSize_ == size);
             for (int i{}; i < size; i++) {
-                *outArray_[i] = input[i];
+                std::cout << "hello";
+                pinOutArray_[i].set(input[i]);
             }
             propogateAll();
         }

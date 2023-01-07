@@ -2,26 +2,32 @@
 #define CIRCUIT_H
 
 
+#include "pinin.h"
+#include "pinout.h"
+
+
 class Circuit
 {
 public:
-    Circuit(int stateSize, int outSize);
+    Circuit(int inSize, int outSize);
     ~Circuit();
-    bool &in(int index) const;
+    PinIn &in(int index) const;
     void out(int outIndex, Circuit &inCircuit, int inIndex);
     virtual void run() = 0;
     void propogate(int index);
     void propogateAll();
+    static void connect(Circuit &inCircuit, int pinInIndex, Circuit &outCircuit, int pinOutIndex);
+    static void connect(Circuit *inCircuit, int pinInIndex, Circuit *outCircuit, int pinOutIndex);
 
     //Getters
-    int stateSize() const;
+    int inSize() const;
     int outSize() const;
 
-protected:
-    int stateSize_;
+//protected:
+    int inSize_;
     int outSize_;
-    bool *stateArray_;
-    bool **outArray_;
+    PinIn *pinInArray_;
+    PinOut *pinOutArray_;
     Circuit **connectedCircuitArray_; //Consider replacing the out array completely with the connected circuit array
 
 };

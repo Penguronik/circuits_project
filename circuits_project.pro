@@ -12,11 +12,16 @@ SOURCES += \
     Backend/circuit.cpp \
     Backend/gates.cpp \
     Backend/interface.cpp \
+    Backend/pinbase.cpp \
+    Backend/pinin.cpp \
+    Backend/pinout.cpp \
     Frontend/body.cpp \
     Frontend/componentcontainer.cpp \
+    Frontend/graphicspin.cpp \
+    Frontend/graphicspinin.cpp \
+    Frontend/graphicspinout.cpp \
     Frontend/main.cpp \
     Frontend/mainwindow.cpp \
-    Frontend/pin.cpp \
     Frontend/scene.cpp \
     Frontend/view.cpp \
     Frontend/wire.cpp
@@ -25,11 +30,16 @@ HEADERS += \
     Backend/circuit.h \
     Backend/gates.h \
     Backend/interface.h \
+    Backend/pinbase.h \
+    Backend/pinin.h \
+    Backend/pinout.h \
     Frontend/body.h \
     Frontend/componentcontainer.h \
     Frontend/constants.h \
+    Frontend/graphicspin.h \
+    Frontend/graphicspinin.h \
+    Frontend/graphicspinout.h \
     Frontend/mainwindow.h \
-    Frontend/pin.h \
     Frontend/scene.h \
     Frontend/view.h \
     Frontend/wire.h

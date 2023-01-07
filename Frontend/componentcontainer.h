@@ -4,7 +4,7 @@
 //HEADERS
 #include "Backend/circuit.h"
 #include "body.h"
-#include "pin.h"
+#include "graphicspin.h"
 
 //QT
 #include <QGraphicsItemGroup>
@@ -38,8 +38,8 @@ public:
 
 private:
     Body *body_;
-    QList<Pin*> *statePinList_;
-    QList<Pin*> *outPinList_;
+    QList<GraphicsPin*> *statePinList_;
+    QList<GraphicsPin*> *outPinList_;
     Circuit *circuit_; //rename, but to what?
 
 };
