@@ -1,7 +1,6 @@
 #ifndef PINOUT_H
 #define PINOUT_H
 
-#include "pinin.h"
 #include "pinbase.h"
 #include "qlist.h"
 #include <iostream>
@@ -9,16 +8,13 @@
 class PinOut : public PinBase
 {
 public:
-    PinOut();
+    PinOut(CircuitComponent *parentCircuitComponent, int index);
+    PinOut(CircuitComponent *parentCircuitComponent = nullptr);
 
-    void set(bool state) {
-        QList<bool *>::iterator i{};
-        for (i = outList_.begin(); i != outList_.end(); ++i) {
-            *(*i) = state;
-        }
+    // Setter
+    void set(bool state);
 
-    }
-
+//private:
     QList<bool *> outList_;
 };
 

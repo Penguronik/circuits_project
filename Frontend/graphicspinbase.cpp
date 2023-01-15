@@ -1,5 +1,5 @@
 //HEADERS
-#include "graphicspin.h"
+#include "graphicspinbase.h"
 #include "wire.h"
 
 //QT
@@ -10,13 +10,13 @@
 
 #include <iostream>
 
-GraphicsPin::GraphicsPin(qreal x, qreal y, qreal width, qreal height, Role role, QGraphicsItem *parent):
+GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, Role role, PinBase *pin, int index, QGraphicsItem *parent):
     QGraphicsEllipseItem{0, 0, width, height, parent}, // Original rectangle is set to 0, 0 in order to use pos() instead of boundingrect() to follow position
+    role_{role}, // Remove role system and use QT type function instead
     wireList_{},
-    role_{role}
+    index_{index},
+    pin_{pin}
 {
-    id_ = currentId_;
-    currentId_++;
     setPos(x, y);
     setAcceptHoverEvents(true);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
@@ -27,35 +27,35 @@ GraphicsPin::GraphicsPin(qreal x, qreal y, qreal width, qreal height, Role role,
     std::cout << "bouunding rect x: " << mapToScene(boundingRect().center()).x() << "bouunding rect y: " << mapToScene(boundingRect().center()).y() << std::endl;
 }
 
-GraphicsPin::GraphicsPin(const QRectF &rect, Role role, QGraphicsItem *parent):
-    GraphicsPin{rect.x(), rect.y(), rect.width(), rect.height(), role, parent}
+GraphicsPinBase::GraphicsPinBase(const QRectF &rect, Role role, PinBase *pin, int index, QGraphicsItem *parent):
+    GraphicsPinBase{rect.x(), rect.y(), rect.width(), rect.height(), role, pin, index, parent}
 {
 
 }
 
-void GraphicsPin::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+void GraphicsPinBase::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
     QBrush tempBrush = brush();
     tempBrush.setColor(QColor{Qt::green}.lighter(150));
     setBrush(tempBrush);
     update();
 }
 
-void GraphicsPin::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
+void GraphicsPinBase::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
     QBrush tempBrush = brush();
     tempBrush.setColor(Qt::green);
     setBrush(tempBrush);
     update();
 }
 
-QVariant GraphicsPin::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
+QVariant GraphicsPinBase::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
     if (change == QGraphicsItem::ItemScenePositionHasChanged) {
         QList<Wire*>::iterator i{};
         for (i = wireList_.begin(); i != wireList_.end(); ++i) {
             QLineF lineShape{(*i)->line()};
-            if( role() == GraphicsPin::State) {
+            if( role() == GraphicsPinBase::State) {
                 lineShape.setP1(sceneBoundingRect().center());
             }
-            else if ( role() == GraphicsPin::Out) {
+            else if ( role() == GraphicsPinBase::Out) {
                 lineShape.setP2(sceneBoundingRect().center());
             }
             (*i)->setLine(lineShape);
@@ -65,12 +65,40 @@ QVariant GraphicsPin::itemChange(QGraphicsItem::GraphicsItemChange change, const
     return QGraphicsItem::itemChange(change, value);
 }
 
-GraphicsPin::Role GraphicsPin::role() const
+GraphicsPinBase::Role GraphicsPinBase::role() const
 {
     return role_;
 }
 
-void GraphicsPin::setRole(GraphicsPin::Role role)
+void GraphicsPinBase::setRole(GraphicsPinBase::Role role)
 {
     role_ = role;
+}
+
+void GraphicsPinBase::addWire(Wire *wire) {
+    wireList_.append(wire);
+}
+
+void GraphicsPinBase::removeWire(Wire *wire) {
+    wireList_.removeOne(wire);
+}
+
+int GraphicsPinBase::index() const
+{
+    return index_;
+}
+
+void GraphicsPinBase::setIndex(int index)
+{
+    index_ = index;
+}
+
+PinBase *GraphicsPinBase::pin() const
+{
+    return pin_;
+}
+
+void GraphicsPinBase::setPin(PinBase *pin)
+{
+    pin_ = pin;
 }

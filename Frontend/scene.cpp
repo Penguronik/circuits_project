@@ -1,5 +1,7 @@
 #include "scene.h"
-#include "graphicspin.h"
+#include "Backend/circuitcomponent.h"
+#include "Frontend/graphicscircuitcomponent.h"
+#include "graphicspinbase.h"
 #include <iostream>
 #include "wire.h"
 
@@ -21,7 +23,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
         // Take the first item that is not a wire and cast it to currentPin if it is a Pin
         if (( (*i)->type() != Wire::Type )) {
-            currentPin = qgraphicsitem_cast<GraphicsPin *>(*i);
+            currentPin = qgraphicsitem_cast<GraphicsPinBase *>(*i);
             break;
         }
     }
@@ -30,18 +32,18 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if (currentPin) {
 
         QLineF lineShape{};
-        if (currentPin->role() == GraphicsPin::State) {
+        if (currentPin->role() == GraphicsPinBase::State) {
             lineShape.setP1(currentPin->sceneBoundingRect().center());
             lineShape.setP2(event->scenePos());
         }
-        else if (currentPin->role() == GraphicsPin::Out) {
+        else if (currentPin->role() == GraphicsPinBase::Out) {
             lineShape.setP1(event->scenePos());
             lineShape.setP2(currentPin->sceneBoundingRect().center());
         }
         currentWire = new Wire{lineShape};
         currentWire->setStyle(Wire::NotAttached);
         addItem(currentWire);
-        currentPin->wireList_.append(currentWire);
+        currentPin->addWire(currentWire);
     }
 
     // If the event is not used, pass it to parent class
@@ -54,11 +56,11 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     if(currentPin){
 
         QLineF lineShape{currentWire->line()};
-        if (currentPin->role() == GraphicsPin::State) {
+        if (currentPin->role() == GraphicsPinBase::State) {
             lineShape.setP2(event->scenePos());
 
         }
-        else if (currentPin->role() == GraphicsPin::Out) {
+        else if (currentPin->role() == GraphicsPinBase::Out) {
             lineShape.setP1(event->scenePos());
 
         }
@@ -73,13 +75,13 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     if(currentPin) {
-        GraphicsPin *finalPin = nullptr;
+        GraphicsPinBase *finalPin = nullptr;
         QList<QGraphicsItem*> candidateItems {items(event->scenePos())};
         QList<QGraphicsItem*>::const_iterator i{};
         for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
             if ((*i)->type() != Wire::Type) {
                 QGraphicsItem *item = *i;
-                finalPin = qgraphicsitem_cast<GraphicsPin*>(item);
+                finalPin = qgraphicsitem_cast<GraphicsPinBase*>(item);
                 break;
             }
         }
@@ -87,20 +89,24 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         if(( finalPin ) && ( finalPin->role() != currentPin->role() ) && ( finalPin != currentPin )) {
 
             QLineF lineShape{currentWire->line()};
-            if (finalPin->role() == GraphicsPin::State) {
+            if (finalPin->role() == GraphicsPinBase::State) {
                 lineShape.setP1(finalPin->sceneBoundingRect().center());
+                GraphicsCircuitComponent::connect(finalPin, currentPin);
             }
-            else if (finalPin->role() == GraphicsPin::Out) {
+            else if (finalPin->role() == GraphicsPinBase::Out) {
                 lineShape.setP2(finalPin->sceneBoundingRect().center());
+                GraphicsCircuitComponent::connect(currentPin, finalPin);
             }
             currentWire->setLine(lineShape);
             currentWire->setStyle(Wire::Attached);
-            finalPin->wireList_.append(currentWire);
+            finalPin->addWire(currentWire);
+
+
 
         }
 
         else {
-            currentPin->wireList_.removeOne(currentWire);
+            currentPin->removeWire(currentWire);
             delete currentWire;
         }
         currentWire = nullptr;

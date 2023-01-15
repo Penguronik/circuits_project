@@ -9,15 +9,17 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Backend/circuit.cpp \
+    Backend/circuitcomponent.cpp \
     Backend/gates.cpp \
-    Backend/interface.cpp \
     Backend/pinbase.cpp \
     Backend/pinin.cpp \
     Backend/pinout.cpp \
     Frontend/body.cpp \
-    Frontend/componentcontainer.cpp \
-    Frontend/graphicspin.cpp \
+    Frontend/graphicscircuitcomponent.cpp \
+    Frontend/graphicscircuitcomponent_copy.cpp \
+    Frontend/graphicscircuitio.cpp \
+    Frontend/graphicsgates.cpp \
+    Frontend/graphicspinbase.cpp \
     Frontend/graphicspinin.cpp \
     Frontend/graphicspinout.cpp \
     Frontend/main.cpp \
@@ -27,16 +29,17 @@ SOURCES += \
     Frontend/wire.cpp
 
 HEADERS += \
-    Backend/circuit.h \
+    Backend/circuitcomponent.h \
     Backend/gates.h \
-    Backend/interface.h \
     Backend/pinbase.h \
     Backend/pinin.h \
     Backend/pinout.h \
     Frontend/body.h \
-    Frontend/componentcontainer.h \
     Frontend/constants.h \
-    Frontend/graphicspin.h \
+    Frontend/graphicscircuitcomponent.h \
+    Frontend/graphicscircuitio.h \
+    Frontend/graphicsgates.h \
+    Frontend/graphicspinbase.h \
     Frontend/graphicspinin.h \
     Frontend/graphicspinout.h \
     Frontend/mainwindow.h \

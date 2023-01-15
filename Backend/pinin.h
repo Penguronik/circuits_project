@@ -7,18 +7,15 @@
 class PinIn : public PinBase
 {
 public:
-    PinIn();
 
-    bool state() {
-        QList<bool *>::const_iterator i{};
-        for (i = inList_.constBegin(); i != inList_.constEnd(); ++i) {
-            if(*(*i)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // Constructors
+    PinIn(CircuitComponent *parentCircuitComponent, int index);
+    PinIn(CircuitComponent *parentCircuitComponent = nullptr);
 
+    // Getter
+    bool state();
+
+//private:
     QList<bool *> inList_;
 };
 

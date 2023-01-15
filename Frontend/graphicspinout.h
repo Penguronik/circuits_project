@@ -1,12 +1,16 @@
 #ifndef GRAPHICSPINOUT_H
 #define GRAPHICSPINOUT_H
 
-#include "graphicspin.h"
+#include "Backend/pinout.h"
+#include "graphicspinbase.h"
 
-class GraphicsPinOut : public GraphicsPin
+class GraphicsPinOut : public GraphicsPinBase
 {
 public:
-    GraphicsPinOut();
+    GraphicsPinOut(qreal x, qreal y, qreal width, qreal height, PinOut *pin, int index, QGraphicsItem *parent = nullptr);
+
+private:
+
 };
 
 #endif // GRAPHICSPINOUT_H
