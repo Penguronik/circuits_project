@@ -2,10 +2,7 @@
 #define GRAPHICSPINBASE_H
 
 // Headers
-#include "Backend/pinbase.h"
-#include "Backend/pinin.h"
-#include "Backend/pinout.h"
-#include "wire.h"
+#include "graphicswire.h"
 
 // QT
 #include <QGraphicsEllipseItem>
@@ -15,42 +12,45 @@ class GraphicsPinBase : public QGraphicsEllipseItem
 {
 public:
 
-    // Enums
-    enum{Type = UserType};
-    enum Role {State = 0,
-               Out   = 1};
+    // Qt Type
+    enum{Type = UserType + 10};
+    virtual int type() const override { return Type; }
+
+//    // Enums
+//    enum Role {State = 0,
+//               Out   = 1};
 
     // Constructors
-    explicit GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, Role role, PinBase *pin, int index, QGraphicsItem *parent = nullptr);
-    explicit GraphicsPinBase(const QRectF &rect, Role role, PinBase *pin, int index, QGraphicsItem *parent = nullptr);
+    explicit GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, int index, QGraphicsItem *parent = nullptr);
+    explicit GraphicsPinBase(const QRectF &rect, int index, QGraphicsItem *parent = nullptr);
 
     // Events
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-    virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
     // Getters
-    inline int type() const override { return Type; }
-    Role role() const;
+    virtual bool state() const = 0;
+//    Role role() const;
 
     // Setters
-    void setRole(Role newRole);
+//    virtual void setWirePinPosition() = 0;
+//    virtual void setWireOtherPosition() = 0;
 
-    //Public Functions
-    void addWire(Wire *wire);
-    void removeWire(Wire *wire);
+//    void setRole(Role newRole);
 
-    int index() const;
-    void setIndex(int index);
+    // Public Functions
+    void addWire(GraphicsWire *wire);
+    void removeWire(GraphicsWire *wire);
+    void updatePinColor();
 
-    PinBase *pin() const;
-    void setPin(PinBase *pin);
+//    int index() const;
+//    void setIndex(int index);
 
-private:
-    Role role_;
-    QList<Wire*> wireList_;
-    int index_;
-    PinBase *pin_;
+//    void setPin(PinBase *pin);
+
+protected:
+    QList<GraphicsWire*> wireList_;
+//    int index_;
 };
 
 #endif // GRAPHICSPINBASE_H

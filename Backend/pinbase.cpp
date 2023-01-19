@@ -1,14 +1,9 @@
 #include "pinbase.h"
 
 PinBase::PinBase(CircuitComponent *parentCircuitComponent):
-    parentCircuitComponent_{parentCircuitComponent}
-{
-
-}
-
-PinBase::PinBase(CircuitComponent *parentCircuitComponent, int index):
     parentCircuitComponent_{parentCircuitComponent},
-    index_{index}
+    state_{false},
+    wireList_{}
 {
 
 }
@@ -21,12 +16,6 @@ void PinBase::setParentCircuitComponent(CircuitComponent *parentCircuitComponent
     parentCircuitComponent_ = parentCircuitComponent;
 }
 
-int PinBase::index() const
-{
-    return index_;
-}
-
-void PinBase::setIndex(int index)
-{
-    index_ = index;
+void PinBase::addWire(Wire *wire) {
+    wireList_.append(wire);
 }

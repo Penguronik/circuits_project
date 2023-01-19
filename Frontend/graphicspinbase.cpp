@@ -1,6 +1,6 @@
 //HEADERS
 #include "graphicspinbase.h"
-#include "wire.h"
+#include "graphicswire.h"
 
 //QT
 #include <QtGui/qbrush.h>
@@ -10,16 +10,12 @@
 
 #include <iostream>
 
-GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, Role role, PinBase *pin, int index, QGraphicsItem *parent):
+GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, int index, QGraphicsItem *parent):
     QGraphicsEllipseItem{0, 0, width, height, parent}, // Original rectangle is set to 0, 0 in order to use pos() instead of boundingrect() to follow position
-    role_{role}, // Remove role system and use QT type function instead
-    wireList_{},
-    index_{index},
-    pin_{pin}
+    wireList_{}
 {
     setPos(x, y);
     setAcceptHoverEvents(true);
-    setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
     setBrush(QBrush{Qt::green});
     setTransformOriginPoint(0,0);
     std::cout << "pin scene x: " << scenePos().x() << std::endl << "pin scene y: " << scenePos().y() << std::endl;
@@ -27,8 +23,8 @@ GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, Ro
     std::cout << "bouunding rect x: " << mapToScene(boundingRect().center()).x() << "bouunding rect y: " << mapToScene(boundingRect().center()).y() << std::endl;
 }
 
-GraphicsPinBase::GraphicsPinBase(const QRectF &rect, Role role, PinBase *pin, int index, QGraphicsItem *parent):
-    GraphicsPinBase{rect.x(), rect.y(), rect.width(), rect.height(), role, pin, index, parent}
+GraphicsPinBase::GraphicsPinBase(const QRectF &rect, int index, QGraphicsItem *parent):
+    GraphicsPinBase{rect.x(), rect.y(), rect.width(), rect.height(), index, parent}
 {
 
 }
@@ -47,58 +43,28 @@ void GraphicsPinBase::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
     update();
 }
 
-QVariant GraphicsPinBase::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
-    if (change == QGraphicsItem::ItemScenePositionHasChanged) {
-        QList<Wire*>::iterator i{};
-        for (i = wireList_.begin(); i != wireList_.end(); ++i) {
-            QLineF lineShape{(*i)->line()};
-            if( role() == GraphicsPinBase::State) {
-                lineShape.setP1(sceneBoundingRect().center());
-            }
-            else if ( role() == GraphicsPinBase::Out) {
-                lineShape.setP2(sceneBoundingRect().center());
-            }
-            (*i)->setLine(lineShape);
-        }
-    }
-
-    return QGraphicsItem::itemChange(change, value);
-}
-
-GraphicsPinBase::Role GraphicsPinBase::role() const
-{
-    return role_;
-}
-
-void GraphicsPinBase::setRole(GraphicsPinBase::Role role)
-{
-    role_ = role;
-}
-
-void GraphicsPinBase::addWire(Wire *wire) {
+void GraphicsPinBase::addWire(GraphicsWire *wire) {
     wireList_.append(wire);
 }
 
-void GraphicsPinBase::removeWire(Wire *wire) {
+void GraphicsPinBase::removeWire(GraphicsWire *wire) {
     wireList_.removeOne(wire);
 }
 
-int GraphicsPinBase::index() const
-{
-    return index_;
-}
-
-void GraphicsPinBase::setIndex(int index)
-{
-    index_ = index;
-}
-
-PinBase *GraphicsPinBase::pin() const
-{
-    return pin_;
-}
-
-void GraphicsPinBase::setPin(PinBase *pin)
-{
-    pin_ = pin;
+void GraphicsPinBase::updatePinColor() {
+    if (state()) {
+        if (brush().color() != Qt::green) {
+            QBrush tempBrush = brush();
+            tempBrush.setColor(Qt::green);
+            setBrush(tempBrush);
+            update(); // figure out the exact purpose of update and if it is actually required here
+        }
+    } else {
+        if (brush().color() != Qt::red) {
+            QBrush tempBrush = brush();
+            tempBrush.setColor(Qt::red);
+            setBrush(tempBrush);
+            update();
+        }
+    }
 }

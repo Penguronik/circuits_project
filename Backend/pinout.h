@@ -2,20 +2,23 @@
 #define PINOUT_H
 
 #include "pinbase.h"
-#include "qlist.h"
-#include <iostream>
 
 class PinOut : public PinBase
 {
 public:
-    PinOut(CircuitComponent *parentCircuitComponent, int index);
+
+    // Constructors
     PinOut(CircuitComponent *parentCircuitComponent = nullptr);
 
     // Setter
-    void set(bool state);
+    void setState(bool state);
 
-//private:
-    QList<bool *> outList_;
+    // Getter
+    bool state() const;
+
+    // Public Functions
+    void updateWire();
+
 };
 
 #endif // PINOUT_H

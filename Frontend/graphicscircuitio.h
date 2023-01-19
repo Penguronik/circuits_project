@@ -9,10 +9,11 @@ class GraphicsCircuitIO : public QGraphicsItem
 {
 public:
 
-    enum{Type = UserType + 5}; // give type values to all of them
+    // Qt Type
+    enum{Type = UserType + 9};
+    int type() const override { return Type; }
 
     explicit GraphicsCircuitIO(CircuitIO *circuitIO, QGraphicsItem *parent = nullptr);
-    inline int type() const override { return Type; } // remember to add this when giving type to all
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     virtual QRectF boundingRect() const override;

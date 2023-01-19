@@ -2,8 +2,7 @@
 #define SCENE_H
 
 // HEADERS
-#include "wire.h"
-#include "graphicspinbase.h"
+#include "graphicswire.h"
 
 // QT
 #include <QGraphicsScene>
@@ -15,7 +14,6 @@ class Scene : public QGraphicsScene
 public:
 
     // Constructors
-    //
     explicit Scene(QObject *parent = nullptr);
 
     // Events
@@ -25,8 +23,10 @@ public:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
-    GraphicsPinBase *currentPin;
-    Wire *currentWire;
+    // For processes where keeping track of the pins for a short period of time is necessary
+    GraphicsPinIn *tempPinIn;
+    GraphicsPinOut *tempPinOut;
+    GraphicsWire *currentWire;
 };
 
 #endif // SCENE_H

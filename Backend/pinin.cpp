@@ -1,10 +1,5 @@
 #include "pinin.h"
-
-PinIn::PinIn(CircuitComponent *parentCircuitComponent, int index):
-    PinBase{parentCircuitComponent, index}
-{
-
-}
+#include "wire.h"
 
 PinIn::PinIn(CircuitComponent *parentCircuitComponent):
     PinBase{parentCircuitComponent}
@@ -12,12 +7,17 @@ PinIn::PinIn(CircuitComponent *parentCircuitComponent):
 
 }
 
-bool PinIn::state() {
-    QList<bool *>::const_iterator i{};
-    for (i = inList_.constBegin(); i != inList_.constEnd(); ++i) {
-        if(*(*i)) {
-            return true;
+bool PinIn::state() const{
+    return state_;
+}
+
+void PinIn::updateState() {
+    QList<Wire *>::const_iterator i{};
+    for (i = wireList_.constBegin(); i != wireList_.constEnd(); ++i) {
+        if((*i)->state()) {
+            state_ = true;
+            return;
         }
     }
-    return false;
+    state_ = false;
 }

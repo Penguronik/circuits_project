@@ -18,16 +18,11 @@ MainWindow::MainWindow(QWidget *parent):
     QWidget{parent},
     scene_{new Scene{this}},
     view_{new View(scene_, this)},
-    containerList_{new QList<GraphicsCircuitComponent*>}
-//    timer{}
+    containerList_{new QList<GraphicsCircuitComponent*>},
+    timer{}
 {
-//    timer.start(15, this);
+    timer.start(15, this);
     scene_->setSceneRect(0, 0, constant::WIDTH, constant::HEIGHT);
-
-
-//    Interface *interface{new Interface{}};
-
-//    Component *component_1{new Component{interface->newComponent()}}; //Component may be already used by qt?
 
 
     for (int i{}; i < 2; i++){
@@ -50,6 +45,12 @@ MainWindow::MainWindow(QWidget *parent):
     containerList_->append(container2);
     scene_->addItem(container2);
 
+    NOTGate *circuit3{new NOTGate{}};
+    GraphicsNOTGate *container3{new GraphicsNOTGate{circuit3}};
+    std::cout << container3 << "<- container address";
+    containerList_->append(container3);
+    scene_->addItem(container3);
+
     std::cout << "test";
 
     CircuitIO *IO{new CircuitIO{1,2}};
@@ -57,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent):
     scene_->addItem(GraphicsIO);
     GraphicsIO->generatePins();
     IO_ = IO;
+    GraphicsIO_ = GraphicsIO;
 
 
 //    Circuit *circuit_1{new NOTGate{}};
@@ -97,17 +99,46 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Space) {
         bool circuitInput[2]{true, false};
-        IO_->run(circuitInput, 2);
+        IO_->run(circuitInput);
         QList<GraphicsCircuitComponent*>::const_iterator i{};
         for (i = containerList_->constBegin(); i != containerList_->constEnd(); ++i) {
-            (*i)->update();
+            (*i)->updateStates();
+            IO_->updateStates();
         }
+        for (i = containerList_->constBegin(); i != containerList_->constEnd(); ++i) {
+            (*i)->run();
+        }
+        for (i = containerList_->constBegin(); i != containerList_->constEnd(); ++i) {
+            (*i)->updateWires();
+            IO_->updateWires();
+        }
+        for (i = containerList_->constBegin(); i != containerList_->constEnd(); ++i) {
+            (*i)->updatePinColors();
+        }
+        std::cout << "Output: " << IO_->pinInArray()->state() << std::endl;
 
     } else {
         QWidget::keyPressEvent(event);
     }
 }
 
-//void MainWindow::timerEvent(QTimerEvent *event) {
-//    scene_->
-//}
+void MainWindow::timerEvent(QTimerEvent *event) {
+    bool circuitInput[2]{true, false};
+    IO_->run(circuitInput);
+    QList<GraphicsCircuitComponent*>::const_iterator i{};
+    for (i = containerList_->constBegin(); i != containerList_->constEnd(); ++i) {
+        (*i)->updateStates();
+        IO_->updateStates();
+    }
+    for (i = containerList_->constBegin(); i != containerList_->constEnd(); ++i) {
+        (*i)->run();
+    }
+    for (i = containerList_->constBegin(); i != containerList_->constEnd(); ++i) {
+        (*i)->updateWires();
+        IO_->updateWires();
+    }
+    for (i = containerList_->constBegin(); i != containerList_->constEnd(); ++i) {
+        (*i)->updatePinColors();
+    }
+    std::cout << "Output: " << IO_->pinInArray()->state() << std::endl;
+}

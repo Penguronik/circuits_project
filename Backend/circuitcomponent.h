@@ -5,7 +5,6 @@
 #include "pinin.h"
 #include "pinout.h"
 
-
 class CircuitComponent
 {
 public:
@@ -20,15 +19,10 @@ public:
     virtual void run() = 0;
 
     // Public functions
-    void propogate(int index);
-    void propogateAll();
+    void updateStates();
+    void updateWires();
 
-    // Static functions
-    static void connect(CircuitComponent &inCircuit, int pinInIndex, CircuitComponent &outCircuit, int pinOutIndex);
-    static void connect(CircuitComponent *inCircuit, int pinInIndex, CircuitComponent *outCircuit, int pinOutIndex);
-    static void connect(PinBase *pinIn, PinBase *pinOut);
-
-    //Getters
+    // Getters
     int inSize() const;
     int outSize() const;
     PinIn *pinInArray() const;
@@ -39,7 +33,6 @@ protected:
     int outSize_;
     PinIn *pinInArray_;
     PinOut *pinOutArray_;
-    CircuitComponent **connectedCircuitArray_; //Consider replacing the out array completely with the connected circuit array
 
 };
 

@@ -1,13 +1,14 @@
 #include "scene.h"
-#include "Backend/circuitcomponent.h"
-#include "Frontend/graphicscircuitcomponent.h"
 #include "graphicspinbase.h"
 #include <iostream>
-#include "wire.h"
+#include "graphicswire.h"
+#include "graphicspinin.h"
+#include "graphicspinout.h"
 
 Scene::Scene(QObject *parent):
     QGraphicsScene{parent},
-    currentPin{nullptr},
+    tempPinIn{nullptr},
+    tempPinOut{nullptr},
     currentWire{nullptr}
 {
 
@@ -22,28 +23,38 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         std::cout << (*i)->type() << std::endl;
 
         // Take the first item that is not a wire and cast it to currentPin if it is a Pin
-        if (( (*i)->type() != Wire::Type )) {
-            currentPin = qgraphicsitem_cast<GraphicsPinBase *>(*i);
+        if (( (*i)->type() != GraphicsWire::Type )) {
+            // FIX COMMENTS THIS IS WRONG: Cast to GraphicsPinIn if it is a pinIn, GraphicsPinOut if it is a pin out, and nullptr otherwise
+            if ( (*i)->type() == GraphicsPinIn::Type ) {
+                tempPinIn = qgraphicsitem_cast<GraphicsPinIn *>(*i);
+            } else if ( (*i)->type() == GraphicsPinOut::Type ) {
+                tempPinOut = qgraphicsitem_cast<GraphicsPinOut *>(*i);
+            }
             break;
         }
     }
 
     // If currentPin exists, create a wire that starts at the Pin's center
-    if (currentPin) {
+    if (tempPinIn) {
 
-        QLineF lineShape{};
-        if (currentPin->role() == GraphicsPinBase::State) {
-            lineShape.setP1(currentPin->sceneBoundingRect().center());
-            lineShape.setP2(event->scenePos());
-        }
-        else if (currentPin->role() == GraphicsPinBase::Out) {
-            lineShape.setP1(event->scenePos());
-            lineShape.setP2(currentPin->sceneBoundingRect().center());
-        }
-        currentWire = new Wire{lineShape};
-        currentWire->setStyle(Wire::NotAttached);
+        currentWire = new GraphicsWire{};
+
+        currentWire->setPinInPosition(tempPinIn->sceneBoundingRect().center());
+        currentWire->setPinOutPosition(event->scenePos());
+
+        currentWire->setStyle(GraphicsWire::NotAttached);
+
         addItem(currentWire);
-        currentPin->addWire(currentWire);
+    } else if (tempPinOut) {
+
+        currentWire = new GraphicsWire{};
+
+        currentWire->setPinInPosition(event->scenePos());
+        currentWire->setPinOutPosition(tempPinOut->sceneBoundingRect().center());
+
+        currentWire->setStyle(GraphicsWire::NotAttached);
+
+        addItem(currentWire);
     }
 
     // If the event is not used, pass it to parent class
@@ -53,18 +64,13 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-    if(currentPin){
+    if(tempPinIn){
 
-        QLineF lineShape{currentWire->line()};
-        if (currentPin->role() == GraphicsPinBase::State) {
-            lineShape.setP2(event->scenePos());
+        currentWire->setPinOutPosition(event->scenePos());
 
-        }
-        else if (currentPin->role() == GraphicsPinBase::Out) {
-            lineShape.setP1(event->scenePos());
+    } else if (tempPinOut) {
 
-        }
-        currentWire->setLine(lineShape);
+        currentWire->setPinInPosition(event->scenePos());
 
     }
 
@@ -74,43 +80,61 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
-    if(currentPin) {
-        GraphicsPinBase *finalPin = nullptr;
+    if(tempPinIn) {
         QList<QGraphicsItem*> candidateItems {items(event->scenePos())};
         QList<QGraphicsItem*>::const_iterator i{};
         for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
-            if ((*i)->type() != Wire::Type) {
-                QGraphicsItem *item = *i;
-                finalPin = qgraphicsitem_cast<GraphicsPinBase*>(item);
+
+            if ((*i)->type() != GraphicsWire::Type) {
+                tempPinOut = qgraphicsitem_cast<GraphicsPinOut *>(*i);
                 break;
             }
         }
 
-        if(( finalPin ) && ( finalPin->role() != currentPin->role() ) && ( finalPin != currentPin )) {
+        if (tempPinOut) {
+            currentWire->setPinOutPosition(tempPinOut->sceneBoundingRect().center());
 
-            QLineF lineShape{currentWire->line()};
-            if (finalPin->role() == GraphicsPinBase::State) {
-                lineShape.setP1(finalPin->sceneBoundingRect().center());
-                GraphicsCircuitComponent::connect(finalPin, currentPin);
-            }
-            else if (finalPin->role() == GraphicsPinBase::Out) {
-                lineShape.setP2(finalPin->sceneBoundingRect().center());
-                GraphicsCircuitComponent::connect(currentPin, finalPin);
-            }
-            currentWire->setLine(lineShape);
-            currentWire->setStyle(Wire::Attached);
-            finalPin->addWire(currentWire);
-
-
+            currentWire->connect(tempPinIn, tempPinOut); // if you want to allow for wire placements before full connection at some point then you'll have to move the addWire functions outside of the connect function
+            currentWire->setStyle(GraphicsWire::Attached);
 
         }
 
         else {
-            currentPin->removeWire(currentWire);
+            tempPinIn->removeWire(currentWire);
             delete currentWire;
         }
+
         currentWire = nullptr;
-        currentPin = nullptr;
+        tempPinIn = nullptr;
+        tempPinOut = nullptr;
+
+    } else if (tempPinOut) {
+        QList<QGraphicsItem*> candidateItems {items(event->scenePos())};
+        QList<QGraphicsItem*>::const_iterator i{};
+        for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
+
+            if ((*i)->type() != GraphicsWire::Type) {
+                tempPinIn = qgraphicsitem_cast<GraphicsPinIn *>(*i);
+                break;
+            }
+        }
+
+        if (tempPinIn) {
+            currentWire->setPinInPosition(tempPinIn->sceneBoundingRect().center());
+
+            currentWire->connect(tempPinIn, tempPinOut);
+            currentWire->setStyle(GraphicsWire::Attached);
+
+        }
+
+        else {
+            tempPinOut->removeWire(currentWire);
+            delete currentWire;
+        }
+
+        currentWire = nullptr;
+        tempPinIn = nullptr;
+        tempPinOut = nullptr;
     }
 
     else {

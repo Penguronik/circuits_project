@@ -15,8 +15,8 @@
 GraphicsCircuitComponent::GraphicsCircuitComponent(CircuitComponent *circuitComponent, QGraphicsItem *parent):
     QGraphicsItem{parent},
     body_{new Body{0, 0, 50, 30, this}}, //A RENAME IS DEFINITELY NECESSARY VERY SOON
-    inPinList_{new QList<GraphicsPinBase*>{}}, //consider making the pin lists not dynamically allocated
-    outPinList_{new QList<GraphicsPinBase*>{}},
+    inPinList_{new QList<GraphicsPinIn*>{}}, //consider making the pin lists not dynamically allocated, also consider making them arrays instead of lists
+    outPinList_{new QList<GraphicsPinOut*>{}},
     circuitComponent_{circuitComponent}
 {
     generateInPins();
@@ -57,12 +57,35 @@ void GraphicsCircuitComponent::generateOutPins() {
     }
 }
 
-void GraphicsCircuitComponent::update() {
-    for (int i{0}; i < circuitComponent_->inSize(); i++) {
-        if (circuitComponent_->pinInArray()[i].state()) {
-            inPinList_->at(i)->setBrush(QBrush{Qt::green});
-        } else {
-            inPinList_->at(i)->setBrush(QBrush{Qt::red});
-        }
+void GraphicsCircuitComponent::updateStates() {
+    circuitComponent_->updateStates();
+}
+
+void GraphicsCircuitComponent::updateWires() {
+    circuitComponent_->updateWires();
+}
+
+void GraphicsCircuitComponent::run() {
+    circuitComponent_->run();
+}
+
+void GraphicsCircuitComponent::updatePinColors() {
+    QList<GraphicsPinIn*>::iterator currentPinIn{};
+    for (currentPinIn = inPinList_->begin(); currentPinIn != inPinList_->end(); ++currentPinIn) {
+        (*currentPinIn)->updatePinColor();
+    }
+    QList<GraphicsPinOut*>::iterator currentPinOut{};
+    for (currentPinOut = outPinList_->begin(); currentPinOut != outPinList_->end(); ++currentPinOut) {
+        (*currentPinOut)->updatePinColor();
     }
 }
+
+//void GraphicsCircuitComponent::update() {
+//    for (int i{0}; i < circuitComponent_->inSize(); i++) {
+//        if (circuitComponent_->pinInArray()[i].state()) {
+//            inPinList_->at(i)->setBrush(QBrush{Qt::green});
+//        } else {
+//            inPinList_->at(i)->setBrush(QBrush{Qt::red});
+//        }
+//    }
+//}

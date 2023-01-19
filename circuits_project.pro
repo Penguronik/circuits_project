@@ -14,6 +14,7 @@ SOURCES += \
     Backend/pinbase.cpp \
     Backend/pinin.cpp \
     Backend/pinout.cpp \
+    Backend/wire.cpp \
     Frontend/body.cpp \
     Frontend/graphicscircuitcomponent.cpp \
     Frontend/graphicscircuitcomponent_copy.cpp \
@@ -22,11 +23,11 @@ SOURCES += \
     Frontend/graphicspinbase.cpp \
     Frontend/graphicspinin.cpp \
     Frontend/graphicspinout.cpp \
+    Frontend/graphicswire.cpp \
     Frontend/main.cpp \
     Frontend/mainwindow.cpp \
     Frontend/scene.cpp \
-    Frontend/view.cpp \
-    Frontend/wire.cpp
+    Frontend/view.cpp
 
 HEADERS += \
     Backend/circuitcomponent.h \
@@ -34,6 +35,7 @@ HEADERS += \
     Backend/pinbase.h \
     Backend/pinin.h \
     Backend/pinout.h \
+    Backend/wire.h \
     Frontend/body.h \
     Frontend/constants.h \
     Frontend/graphicscircuitcomponent.h \
@@ -42,10 +44,10 @@ HEADERS += \
     Frontend/graphicspinbase.h \
     Frontend/graphicspinin.h \
     Frontend/graphicspinout.h \
+    Frontend/graphicswire.h \
     Frontend/mainwindow.h \
     Frontend/scene.h \
-    Frontend/view.h \
-    Frontend/wire.h
+    Frontend/view.h
 
 FORMS +=
 
@@ -53,3 +55,6 @@ FORMS +=
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    Frontend/types_reference

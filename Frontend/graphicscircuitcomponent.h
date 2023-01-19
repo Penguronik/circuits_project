@@ -16,8 +16,9 @@ class GraphicsCircuitComponent : public QGraphicsItem
 //    Q_OBJECT If you want to use q object properties, reinclude this and also inherit QGraphicsObject instead
 public:
 
-    // Enums
-    enum{Type = UserType + 2};
+    // Qt Type
+    enum{Type = UserType};
+    virtual int type() const override { return Type; }
 
     // Constructors
     explicit GraphicsCircuitComponent(CircuitComponent *circuit, QGraphicsItem *parent = nullptr);
@@ -25,27 +26,31 @@ public:
     // Getters
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
-    inline int type() const override { return Type; }
 
     // Public Functions
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void generateInPins();
     void generateOutPins();
 
-    static void connect(GraphicsPinBase &graphicsPinIn, GraphicsPinBase &graphicsPinOut) { //Make all objects pass by reference wherever possible if theyre not already a pointer
-        CircuitComponent::connect(graphicsPinIn.pin(), graphicsPinOut.pin());
-    }
+//    static void connect(GraphicsPinBase &graphicsPinIn, GraphicsPinBase &graphicsPinOut) { //Make all objects pass by reference wherever possible if theyre not already a pointer
+//        CircuitComponent::connect(graphicsPinIn.pin(), graphicsPinOut.pin());
+//    }
 
-    static void connect(GraphicsPinBase *graphicsPinIn, GraphicsPinBase *graphicsPinOut) {
-        connect(*graphicsPinIn, *graphicsPinOut);
-    }
+//    static void connect(GraphicsPinBase *graphicsPinIn, GraphicsPinBase *graphicsPinOut) {
+//        connect(*graphicsPinIn, *graphicsPinOut);
+//    }
 
-    void update();
+//    void update();
+
+    void updateStates();
+    void updateWires();
+    void run();
+    void updatePinColors();
 
 private:
     Body *body_;
-    QList<GraphicsPinBase*> *inPinList_;
-    QList<GraphicsPinBase*> *outPinList_;
+    QList<GraphicsPinIn*> *inPinList_;
+    QList<GraphicsPinOut*> *outPinList_;
     CircuitComponent *circuitComponent_;
 
 };

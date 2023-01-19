@@ -1,6 +1,10 @@
 #ifndef PINBASE_H
 #define PINBASE_H
 
+#include <QList>
+
+class Wire;
+
 class CircuitComponent; // fix to forward declarations in headers
 
 class PinBase
@@ -8,7 +12,6 @@ class PinBase
 public:
 
     // Constructor
-    PinBase(CircuitComponent *parentCircuitComponent, int index);
     PinBase(CircuitComponent *parentCircuitComponent = nullptr);
 
     // Getters
@@ -19,9 +22,13 @@ public:
     void setParentCircuitComponent(CircuitComponent *parentCircuitComponent);
     void setIndex(int index);
 
+    // Public Functions
+    void addWire(Wire *wire);
+
 protected:
     CircuitComponent *parentCircuitComponent_;
-    int index_;
+    bool state_;
+    QList<Wire *> wireList_;
 };
 
 #endif // PINBASE_H

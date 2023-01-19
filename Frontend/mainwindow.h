@@ -3,6 +3,7 @@
 
 //HEADERS
 #include "Backend/gates.h"
+#include "Frontend/graphicscircuitio.h"
 #include "graphicscircuitcomponent.h"
 #include "scene.h"
 #include "view.h"
@@ -23,13 +24,14 @@ public:
     // Events
     virtual void resizeEvent(QResizeEvent *event) override;
     virtual void keyPressEvent(QKeyEvent *event) override;
-//    virtual void timerEvent(QTimerEvent *event) override;
+    virtual void timerEvent(QTimerEvent *event) override;
 
 private:
     Scene *scene_;
     View *view_;
     QList<GraphicsCircuitComponent*> *containerList_;
-    CircuitIO *IO_; // switch to graphicscircuitIO later
-//    QBasicTimer timer; // consider putting this into scene instead, or i guess it probably makes sense here cause everything might need the timer
+    CircuitIO *IO_; // remove and only use graphicscircuitIO later
+    GraphicsCircuitIO *GraphicsIO_;
+    QBasicTimer timer; // consider putting this into scene instead, or i guess it probably makes sense here cause everything might need the timer
 };
 #endif // MAINWINDOW_H

@@ -2,21 +2,20 @@
 #define PININ_H
 
 #include "pinbase.h"
-#include "qlist.h"
 
 class PinIn : public PinBase
 {
 public:
 
     // Constructors
-    PinIn(CircuitComponent *parentCircuitComponent, int index);
     PinIn(CircuitComponent *parentCircuitComponent = nullptr);
 
     // Getter
-    bool state();
+    bool state() const;
 
-//private:
-    QList<bool *> inList_;
+    // Public Functions
+    void updateState();
+
 };
 
 #endif // PININ_H
