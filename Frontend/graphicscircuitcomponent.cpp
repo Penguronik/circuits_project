@@ -79,13 +79,3 @@ void GraphicsCircuitComponent::updatePinColors() {
         (*currentPinOut)->updatePinColor();
     }
 }
-
-//void GraphicsCircuitComponent::update() {
-//    for (int i{0}; i < circuitComponent_->inSize(); i++) {
-//        if (circuitComponent_->pinInArray()[i].state()) {
-//            inPinList_->at(i)->setBrush(QBrush{Qt::green});
-//        } else {
-//            inPinList_->at(i)->setBrush(QBrush{Qt::red});
-//        }
-//    }
-//}

@@ -3,6 +3,7 @@ User_Type: GraphicsCircuitComponent
        +2: GraphicsORGate
        +3: GraphicsNOTGate
        +4: GraphicsButtonComponent
+       +5: GraphicsButtonPin
        +9: GraphicsCircuitIO
       +10: GraphicsPinBase
       +11: GraphicsPinIn

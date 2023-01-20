@@ -1,7 +1,7 @@
 #ifndef GRAPHICSCIRCUITIO_H
 #define GRAPHICSCIRCUITIO_H
 
-#include "Backend/gates.h"
+#include "graphicsgates.h"
 #include "Frontend/graphicspinbase.h"
 #include <QGraphicsItem>
 

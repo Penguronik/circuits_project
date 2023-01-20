@@ -16,11 +16,9 @@ public:
 
     // Getters
     CircuitComponent *parentCircuitComponent() const;
-    int index() const;
 
     // Setters
     void setParentCircuitComponent(CircuitComponent *parentCircuitComponent);
-    void setIndex(int index);
 
     // Public Functions
     void addWire(Wire *wire);

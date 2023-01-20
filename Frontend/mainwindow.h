@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 //HEADERS
-#include "Backend/gates.h"
-#include "Frontend/graphicscircuitio.h"
-#include "graphicscircuitcomponent.h"
+#include "graphicscomponents.h"
+#include "graphicsgates.h"
+#include "graphicscircuitio.h"
 #include "scene.h"
 #include "view.h"
 

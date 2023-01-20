@@ -1,5 +1,6 @@
 #include "graphicsgates.h"
 
+
 GraphicsANDGate::GraphicsANDGate(ANDGate *circuitComponent, QGraphicsItem *parent):
     GraphicsCircuitComponent(circuitComponent, parent)
 {
@@ -78,28 +79,3 @@ void GraphicsNOTGate::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     painter->setBrush(Qt::gray);
     painter->drawPath(path);
 }
-
-//GraphicsButtonComponent::GraphicsButtonComponent(ButtonComponent *circuitComponent, QGraphicsItem *parent):
-//    GraphicsCircuitComponent(circuitComponent, parent)
-//{
-
-//}
-
-//QRectF GraphicsButtonComponent::boundingRect() const {
-//    return QRectF{0, 0, 52, 32};
-//}
-
-//QPainterPath GraphicsButtonComponent::shape() const {
-//    QPainterPath path{};
-//    path.lineTo(50, 15);
-//    path.lineTo(0, 30);
-//    path.closeSubpath();
-//    return path;
-//}
-
-//void GraphicsButtonComponent::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-//    QPainterPath path{shape()};
-//    painter->setPen(QPen{Qt::black, 2});
-//    painter->setBrush(Qt::gray);
-//    painter->drawPath(path);
-//}

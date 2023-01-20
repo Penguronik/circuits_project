@@ -1,6 +1,3 @@
-//UTIL
-#include "Frontend/graphicsgates.h"
-#include "Frontend/graphicscircuitio.h"
 #include "constants.h"
 #include <iostream>
 
@@ -9,9 +6,7 @@
 #include <QtGui/qevent.h>
 
 //HEADERS
-#include "Backend/gates.h"
 #include "mainwindow.h"
-#include "graphicspinbase.h"
 
 
 MainWindow::MainWindow(QWidget *parent):
@@ -26,15 +21,14 @@ MainWindow::MainWindow(QWidget *parent):
 
 
     for (int i{}; i < 2; i++){
-        ANDGate *circuit{new ANDGate{}};
-        GraphicsANDGate *container{new GraphicsANDGate{circuit}};
+        ORGate *circuit{new ORGate{}};
+        GraphicsORGate *container{new GraphicsORGate{circuit}};
         std::cout << container << "<- container address";
         containerList_->append(container);
         scene_->addItem(container);
     }
-
-    ORGate *circuit{new ORGate{}};
-    GraphicsORGate *container{new GraphicsORGate{circuit}};
+    ANDGate *circuit{new ANDGate{}};
+    GraphicsANDGate *container{new GraphicsANDGate{circuit}};
     std::cout << container << "<- container address";
     containerList_->append(container);
     scene_->addItem(container);
@@ -59,6 +53,14 @@ MainWindow::MainWindow(QWidget *parent):
     GraphicsIO->generatePins();
     IO_ = IO;
     GraphicsIO_ = GraphicsIO;
+
+    for (int i{}; i < 2; i++){
+        ButtonComponent *button{new ButtonComponent{}};
+        GraphicsButtonComponent *graphicsButton{new GraphicsButtonComponent{button}};
+        scene_->addItem(graphicsButton);
+        containerList_->append(graphicsButton);
+    }
+
 
 
 //    Circuit *circuit_1{new NOTGate{}};

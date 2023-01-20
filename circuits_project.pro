@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     Backend/circuitcomponent.cpp \
+    Backend/components.cpp \
     Backend/gates.cpp \
     Backend/pinbase.cpp \
     Backend/pinin.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     Frontend/graphicscircuitcomponent.cpp \
     Frontend/graphicscircuitcomponent_copy.cpp \
     Frontend/graphicscircuitio.cpp \
+    Frontend/graphicscomponents.cpp \
     Frontend/graphicsgates.cpp \
     Frontend/graphicspinbase.cpp \
     Frontend/graphicspinin.cpp \
@@ -31,7 +33,6 @@ SOURCES += \
 
 HEADERS += \
     Backend/circuitcomponent.h \
-    Backend/gates.h \
     Backend/pinbase.h \
     Backend/pinin.h \
     Backend/pinout.h \
@@ -40,6 +41,7 @@ HEADERS += \
     Frontend/constants.h \
     Frontend/graphicscircuitcomponent.h \
     Frontend/graphicscircuitio.h \
+    Frontend/graphicscomponents.h \
     Frontend/graphicsgates.h \
     Frontend/graphicspinbase.h \
     Frontend/graphicspinin.h \

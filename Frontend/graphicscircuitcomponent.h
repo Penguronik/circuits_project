@@ -47,7 +47,7 @@ public:
     void run();
     void updatePinColors();
 
-private:
+protected:
     Body *body_;
     QList<GraphicsPinIn*> *inPinList_;
     QList<GraphicsPinOut*> *outPinList_;
