@@ -9,8 +9,7 @@ class View : public QGraphicsView
     Q_OBJECT
 public:
 
-    // Constructors
-    //
+    // Constructor
     explicit View(QGraphicsScene * scene, QWidget * parent = nullptr);
 
 };

@@ -4,12 +4,20 @@
 #include "graphicswire.h"
 #include "graphicspinin.h"
 #include "graphicspinout.h"
+#include "graphicscircuitcomponent.h"
+#include "graphicsgates.h"
+#include "graphicscomponents.h"
+#include <QMimeData>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QIODevice>
 
 Scene::Scene(QObject *parent):
     QGraphicsScene{parent},
     tempPinIn{nullptr},
     tempPinOut{nullptr},
-    currentWire{nullptr}
+    currentWire{nullptr},
+    componentList_{}
 {
 
 }
@@ -20,7 +28,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     QList<QGraphicsItem*> candidateItems {items(event->scenePos())};
     QList<QGraphicsItem*>::const_iterator i{};
     for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
-        std::cout << (*i)->type() << std::endl;
+//        std::cout << (*i)->type() << std::endl;
 
         // Take the first item that is not a wire and cast it to currentPin if it is a Pin
         if (( (*i)->type() != GraphicsWire::Type )) {
@@ -140,4 +148,84 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     else {
         QGraphicsScene::mouseReleaseEvent(event);
     }
+}
+
+void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
+    if (event->mimeData()->hasFormat("application/json")) {
+        event->acceptProposedAction();
+        qDebug() << event->proposedAction();
+        event->setProposedAction(Qt::CopyAction);
+        qDebug() << event->proposedAction();
+//        event->acceptProposedAction();
+        qDebug() << event->proposedAction();
+        event->accept();
+        qDebug() << "Drag Enter";
+    }
+}
+
+void Scene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
+//    if (event->mimeData()->hasFormat("application/json")) {
+//        qDebug() << event;
+//        event->acceptProposedAction();
+//    }
+}
+
+//void Scene ::dragLeaveEvent(QGraphicsSceneDragDropEvent *event) {
+
+
+//}
+
+void Scene::dropEvent(QGraphicsSceneDragDropEvent *event) {
+    qDebug() << "Drag Drop";
+    if (event->mimeData()->hasFormat("application/json")) {
+        event->acceptProposedAction();
+
+        QDataStream stream{event->mimeData()->data("application/json")};
+        QByteArray encodedData {};
+
+        stream >> encodedData;
+
+        QJsonObject data{QJsonDocument::fromJson(encodedData).object()};
+
+        if (data.value("Data").isString()) { // Base Gate/Component
+            GraphicsCircuitComponent *component {createComponent(data.value("Data").toString())};
+            qDebug() << "Scene Mime Accept: " << data.value("Data").toString();
+            addItem(component);
+            addComponent(component);
+
+            component->setPos(event->scenePos() - component->boundingRect().center()); // Place the item's center right under the cursor
+
+        } else if (data.value("Data").isObject()) {
+            qDebug() << data.value("Data").toObject();
+        }
+
+    }
+
+//    textBrowser->setPlainText(event->mimeData()->text());
+//    mimeTypeCombo->clear();
+//    mimeTypeCombo->addItems(event->mimeData()->formats());
+
+//    event->acceptProposedAction();
+}
+
+void Scene::addComponent(GraphicsCircuitComponent *component) {
+    componentList_.append(component);
+}
+
+GraphicsCircuitComponent *Scene::createComponent(QString componentType) {
+    if (componentType == "NOT Gate") {
+        return new GraphicsNOTGate{};
+    } else if (componentType == "OR Gate") {
+        return new GraphicsORGate{};
+    } else if (componentType == "AND Gate") {
+        return new GraphicsANDGate{};
+    } else if (componentType == "Button") {
+        return new GraphicsButtonComponent{};
+    }
+
+    return nullptr;
+}
+
+QList<GraphicsCircuitComponent*> &Scene::componentList() {
+    return componentList_;
 }

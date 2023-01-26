@@ -2,14 +2,17 @@
 #include "constants.h"
 
 //HEADERS
+#include <QMimeData>
+#include "qevent.h"
 #include "view.h"
 
 View::View(QGraphicsScene * scene, QWidget * parent):
     QGraphicsView(scene, parent)
 {
-    setFixedSize(constant::WIDTH, constant::HEIGHT);
-    setSceneRect(0, 0, constant::WIDTH, constant::HEIGHT);
-    fitInView(0, 0, constant::WIDTH, constant::HEIGHT, Qt::KeepAspectRatio);
+    setFixedSize(500, 500);
+    setSceneRect(0, 0, 500, 500);
+    fitInView(0, 0, 500, 500, Qt::KeepAspectRatio);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setAcceptDrops(true);
 }

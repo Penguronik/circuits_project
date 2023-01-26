@@ -30,6 +30,7 @@ GraphicsPinBase::GraphicsPinBase(const QRectF &rect, int index, QGraphicsItem *p
 }
 
 void GraphicsPinBase::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+    Q_UNUSED (event); // INCLUDE Q_UNUSED WHENEVER NEEDED
     QBrush tempBrush = brush();
     tempBrush.setColor(QColor{Qt::green}.lighter(150));
     setBrush(tempBrush);

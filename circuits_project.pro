@@ -11,6 +11,8 @@ CONFIG += c++17
 SOURCES += \
     Backend/circuitcomponent.cpp \
     Backend/components.cpp \
+    Backend/componenttreeitem.cpp \
+    Backend/componenttreemodel.cpp \
     Backend/gates.cpp \
     Backend/pinbase.cpp \
     Backend/pinin.cpp \
@@ -33,6 +35,8 @@ SOURCES += \
 
 HEADERS += \
     Backend/circuitcomponent.h \
+    Backend/componenttreeitem.h \
+    Backend/componenttreemodel.h \
     Backend/pinbase.h \
     Backend/pinin.h \
     Backend/pinout.h \
@@ -59,4 +63,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    Backend/SavedComponents.json \
     Frontend/types_reference

@@ -13,7 +13,7 @@ public:
     int type() const override { return Type; }
 
     // Constructor
-    GraphicsANDGate(ANDGate *circuitComponent, QGraphicsItem *parent = nullptr);
+    GraphicsANDGate(ANDGate *circuitComponent = new ANDGate{}, QGraphicsItem *parent = nullptr);
 
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
@@ -29,7 +29,7 @@ public:
     enum{Type = UserType + 2};
     int type() const override { return Type; }
 
-    GraphicsORGate(ORGate *circuitComponent, QGraphicsItem *parent = nullptr);
+    GraphicsORGate(ORGate *circuitComponent = new ORGate{}, QGraphicsItem *parent = nullptr);
 
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
@@ -45,7 +45,7 @@ public:
     enum{Type = UserType + 3};
     int type() const override { return Type; }
 
-    GraphicsNOTGate(NOTGate *circuitComponent, QGraphicsItem *parent = nullptr);
+    GraphicsNOTGate(NOTGate *circuitComponent = new NOTGate{}, QGraphicsItem *parent = nullptr);
 
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;

@@ -25,7 +25,7 @@ public:
     enum{Type = UserType + 4};
     int type() const override { return Type; }
 
-    GraphicsButtonComponent(ButtonComponent *circuitComponent, QGraphicsItem *parent = nullptr);
+    GraphicsButtonComponent(ButtonComponent *circuitComponent = new ButtonComponent{}, QGraphicsItem *parent = nullptr);
 
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;

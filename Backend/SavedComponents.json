@@ -1,0 +1,23 @@
+{
+    "Base Gates" : ["NOT Gate", "OR Gate", "AND Gate"],
+
+    "Utility Components" : ["Button"],
+
+    "Custom Components" : [
+        {
+            "Name" : "Test",
+            "Backend" : [
+                {
+                    "Base" : "IO",
+                    "Out Pins" : [[1]]
+                },
+                {
+                    "Base" : "NOT",
+                    "Out Pins" : [[0]]
+                }
+            ]
+        }
+
+
+    ]
+}
