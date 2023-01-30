@@ -23,6 +23,10 @@ GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, in
     std::cout << "bouunding rect x: " << mapToScene(boundingRect().center()).x() << "bouunding rect y: " << mapToScene(boundingRect().center()).y() << std::endl;
 }
 
+GraphicsPinBase::~GraphicsPinBase() {
+    wireList_.clear();
+}
+
 GraphicsPinBase::GraphicsPinBase(const QRectF &rect, int index, QGraphicsItem *parent):
     GraphicsPinBase{rect.x(), rect.y(), rect.width(), rect.height(), index, parent}
 {

@@ -9,6 +9,11 @@ Wire::Wire():
 
 }
 
+Wire::~Wire() {
+    pinIn_ = nullptr;
+    pinOut_ = nullptr;
+}
+
 bool Wire::state() {
     return state_;
 }

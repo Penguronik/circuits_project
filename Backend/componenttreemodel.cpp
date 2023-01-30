@@ -77,9 +77,9 @@ QVariant ComponentTreeModel::data(const QModelIndex &index, int role) const {
 
     if (role == Qt::DecorationRole) {
         if (item->parent() == rootItem_) {
-            return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/Folder_Icon.png"}.scaled(QSize{50, 50}, Qt::KeepAspectRatio);
+            return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/Folder_Icon.png"}.scaled(QSize{25, 25}, Qt::KeepAspectRatio);
         }
-        return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/Component_Icon.png"}.scaled(QSize{50, 50}, Qt::KeepAspectRatio);
+        return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/Component_Icon.png"}.scaled(QSize{30, 30}, Qt::KeepAspectRatio);
     }
 
 

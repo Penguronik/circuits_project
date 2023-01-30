@@ -23,6 +23,9 @@ public:
     // Constructors
     explicit GraphicsCircuitComponent(CircuitComponent *circuit, QGraphicsItem *parent = nullptr);
 
+    // Destructor
+    ~GraphicsCircuitComponent();
+
     // Getters
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
@@ -31,17 +34,6 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void generateInPins();
     void generateOutPins();
-
-//    static void connect(GraphicsPinBase &graphicsPinIn, GraphicsPinBase &graphicsPinOut) { //Make all objects pass by reference wherever possible if theyre not already a pointer
-//        CircuitComponent::connect(graphicsPinIn.pin(), graphicsPinOut.pin());
-//    }
-
-//    static void connect(GraphicsPinBase *graphicsPinIn, GraphicsPinBase *graphicsPinOut) {
-//        connect(*graphicsPinIn, *graphicsPinOut);
-//    }
-
-//    void update();
-
     void updateStates();
     void updateWires();
     void run();
@@ -49,8 +41,8 @@ public:
 
 protected:
     Body *body_;
-    QList<GraphicsPinIn*> *inPinList_;
-    QList<GraphicsPinOut*> *outPinList_;
+    QList<GraphicsPinIn*> inPinList_;
+    QList<GraphicsPinOut*> outPinList_;
     CircuitComponent *circuitComponent_;
 
 };

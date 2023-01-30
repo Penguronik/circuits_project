@@ -7,6 +7,10 @@ GraphicsPinOut::GraphicsPinOut(qreal x, qreal y, qreal width, qreal height, PinO
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 }
 
+GraphicsPinOut::~GraphicsPinOut() {
+    pin_ = nullptr; // The expectation is that the backend component will delete the backend pin
+}
+
 PinOut *GraphicsPinOut::pin() const
 {
     return pin_;

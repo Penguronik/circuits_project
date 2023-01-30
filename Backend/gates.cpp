@@ -1,5 +1,6 @@
 #include "circuitcomponent.h"
 #include <iostream>
+#include <QDebug>
 
 class NOTGate : public CircuitComponent {
 public:
@@ -46,15 +47,15 @@ public:
 class CircuitIO : public CircuitComponent {
 public:
 
-    CircuitIO(int in_size, int out_size):
-        CircuitComponent{in_size, out_size}
+    CircuitIO(int inSize, int outSize):
+        CircuitComponent{inSize, outSize}
     {
 
     }
 
     virtual void run() override {
         for (int i{}; i < inSize_; i++) {
-            std::cout << pinInArray_[i].state() << std::endl;
+//            qDebug() << pinInArray_[i].state();
         }
     }
 

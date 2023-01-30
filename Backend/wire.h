@@ -10,6 +10,8 @@ class Wire
 public:
     Wire();
 
+    ~Wire();
+
     bool state();
 
     void setState(bool state);

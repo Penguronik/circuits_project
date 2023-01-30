@@ -22,16 +22,8 @@ public:
     // Constructors
     explicit MainWindow(QWidget *parent = nullptr);
 
-    // Events
-    virtual void resizeEvent(QResizeEvent *event) override;
-    virtual void keyPressEvent(QKeyEvent *event) override;
-    virtual void timerEvent(QTimerEvent *event) override;
-
 private:
     Scene *scene_;
     View *view_;
-    CircuitIO *IO_; // remove and only use graphicscircuitIO later
-    GraphicsCircuitIO *GraphicsIO_;
-    QBasicTimer timer; // consider putting this into scene instead, or i guess it probably makes sense here cause everything might need the timer
 };
 #endif // MAINWINDOW_H

@@ -17,6 +17,11 @@ GraphicsWire::GraphicsWire(QGraphicsItem *parent):
 
 }
 
+GraphicsWire::~GraphicsWire() {
+    delete wire_;
+    wire_ = nullptr;
+}
+
 void GraphicsWire::setStyle(LineStyle style) {
         switch(style) {
 

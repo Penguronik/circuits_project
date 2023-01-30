@@ -18,14 +18,18 @@ CircuitComponent::CircuitComponent(int inSize, int outSize):
 CircuitComponent::~CircuitComponent(){
     delete[] pinInArray_;
     delete[] pinOutArray_;
+    pinInArray_ = nullptr;
+    pinOutArray_ = nullptr;
 }
 
+// Sets pin in state to wire state
 void CircuitComponent::updateStates() {
     for (int i{0}; i < inSize_; i++) {
         pinInArray_[i].updateState();
     }
 }
 
+// Sets wire state to pin out state
 void CircuitComponent::updateWires() {
     for (int i{0}; i < outSize_; i++) {
         pinOutArray_[i].updateWire();

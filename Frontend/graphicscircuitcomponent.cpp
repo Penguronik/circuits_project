@@ -15,14 +15,24 @@
 GraphicsCircuitComponent::GraphicsCircuitComponent(CircuitComponent *circuitComponent, QGraphicsItem *parent):
     QGraphicsItem{parent},
     body_{new Body{0, 0, 50, 30, this}}, //A RENAME IS DEFINITELY NECESSARY VERY SOON
-    inPinList_{new QList<GraphicsPinIn*>{}}, //consider making the pin lists not dynamically allocated, also consider making them arrays instead of lists
-    outPinList_{new QList<GraphicsPinOut*>{}},
+    inPinList_{}, //consider making them arrays instead of lists
+    outPinList_{},
     circuitComponent_{circuitComponent}
 {
     generateInPins();
     generateOutPins();
     setFlag(QGraphicsItem::ItemIsMovable);
-    std::cout << body_ << "<- body address";
+}
+
+GraphicsCircuitComponent::~GraphicsCircuitComponent() {
+    delete body_;
+    body_ = nullptr;
+    qDeleteAll(inPinList_);
+    inPinList_.clear();
+    qDeleteAll(outPinList_);
+    outPinList_.clear();
+    delete circuitComponent_;
+    circuitComponent_ = nullptr;
 }
 
 QRectF GraphicsCircuitComponent::boundingRect() const{
@@ -43,7 +53,7 @@ void GraphicsCircuitComponent::generateInPins() {
     topLeft.setY(topLeft.y() + interval/2 - constant::PIN_DIAMETER/2);
     topLeft.setX(topLeft.x() - constant::PIN_DIAMETER/2);
     for (int i {0}; i < circuitComponent_->inSize(); i++) {
-        inPinList_->append(new GraphicsPinIn{topLeft.x(), topLeft.y() + interval*i, constant::PIN_DIAMETER, constant::PIN_DIAMETER, circuitComponent_->pinInArray() + i, i, this});
+        inPinList_.append(new GraphicsPinIn{topLeft.x(), topLeft.y() + interval*i, constant::PIN_DIAMETER, constant::PIN_DIAMETER, circuitComponent_->pinInArray() + i, i, this});
     }
 }
 
@@ -53,7 +63,7 @@ void GraphicsCircuitComponent::generateOutPins() {
     topRight.setY(topRight.y() + interval/2 - constant::PIN_DIAMETER/2);
     topRight.setX(topRight.x() - constant::PIN_DIAMETER/2);
     for (int i {0}; i < circuitComponent_->outSize(); i++) {
-        outPinList_->append(new GraphicsPinOut{topRight.x(), topRight.y() + interval*i, constant::PIN_DIAMETER, constant::PIN_DIAMETER, circuitComponent_->pinOutArray() + i, i, this});
+        outPinList_.append(new GraphicsPinOut{topRight.x(), topRight.y() + interval*i, constant::PIN_DIAMETER, constant::PIN_DIAMETER, circuitComponent_->pinOutArray() + i, i, this});
     }
 }
 
@@ -71,11 +81,11 @@ void GraphicsCircuitComponent::run() {
 
 void GraphicsCircuitComponent::updatePinColors() {
     QList<GraphicsPinIn*>::iterator currentPinIn{};
-    for (currentPinIn = inPinList_->begin(); currentPinIn != inPinList_->end(); ++currentPinIn) {
+    for (currentPinIn = inPinList_.begin(); currentPinIn != inPinList_.end(); ++currentPinIn) {
         (*currentPinIn)->updatePinColor();
     }
     QList<GraphicsPinOut*>::iterator currentPinOut{};
-    for (currentPinOut = outPinList_->begin(); currentPinOut != outPinList_->end(); ++currentPinOut) {
+    for (currentPinOut = outPinList_.begin(); currentPinOut != outPinList_.end(); ++currentPinOut) {
         (*currentPinOut)->updatePinColor();
     }
 }

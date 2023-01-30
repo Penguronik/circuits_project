@@ -26,6 +26,9 @@ public:
     GraphicsWire(const QLineF &line, QGraphicsItem *parent = nullptr);
     GraphicsWire(QGraphicsItem *parent = nullptr);
 
+    // Destructor
+    ~GraphicsWire();
+
     // Setters
     void setStyle(LineStyle style);
 

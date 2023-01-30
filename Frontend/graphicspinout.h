@@ -14,6 +14,8 @@ public:
 
     GraphicsPinOut(qreal x, qreal y, qreal width, qreal height, PinOut *pin, int index, QGraphicsItem *parent = nullptr);
 
+    ~GraphicsPinOut();
+
     virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
     PinOut *pin() const;

@@ -12,6 +12,11 @@ public:
     // Constructor
     explicit View(QGraphicsScene * scene, QWidget * parent = nullptr);
 
+    // Events
+    virtual void resizeEvent(QResizeEvent *event) override;
+    virtual void wheelEvent(QWheelEvent *event) override;
+//    virtual void mousePressEvent(QMouseEvent *event) override;
+//    virtual void mouseReleaseEvent(QMouseEvent *event) override;
 };
 
 #endif // VIEW_H

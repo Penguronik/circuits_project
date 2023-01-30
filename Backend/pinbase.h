@@ -14,6 +14,9 @@ public:
     // Constructor
     PinBase(CircuitComponent *parentCircuitComponent = nullptr);
 
+    // Destructor
+    ~PinBase();
+
     // Getters
     CircuitComponent *parentCircuitComponent() const;
 

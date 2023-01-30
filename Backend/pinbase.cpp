@@ -1,4 +1,5 @@
 #include "pinbase.h"
+#include "circuitcomponent.h"
 
 PinBase::PinBase(CircuitComponent *parentCircuitComponent):
     parentCircuitComponent_{parentCircuitComponent},
@@ -8,7 +9,13 @@ PinBase::PinBase(CircuitComponent *parentCircuitComponent):
 
 }
 
-CircuitComponent *PinBase::parentCircuitComponent() const{
+PinBase::~PinBase() {
+    delete parentCircuitComponent_;
+    parentCircuitComponent_ = nullptr;
+    wireList_.clear(); // Expectation is that the wires are deleted from the graphical frontend
+}
+
+CircuitComponent *PinBase::parentCircuitComponent() const {
     return parentCircuitComponent_;
 }
 

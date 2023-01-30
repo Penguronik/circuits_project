@@ -14,6 +14,8 @@ public:
 
     GraphicsPinIn(qreal x, qreal y, qreal width, qreal height, PinIn *pin, int index, QGraphicsItem *parent = nullptr);
 
+    ~GraphicsPinIn();
+
     virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
     PinIn *pin() const;

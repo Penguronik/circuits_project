@@ -13,7 +13,7 @@ public:
     CircuitComponent(int inSize, int outSize);
 
     // Destructor
-    ~CircuitComponent();
+    virtual ~CircuitComponent();
 
     // Abstract functions
     virtual void run() = 0;
