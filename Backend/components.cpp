@@ -1,4 +1,5 @@
 #include "circuitcomponent.h"
+#include "qdebug.h"
 
 class ButtonComponent : public CircuitComponent {
 public:
@@ -45,19 +46,20 @@ public:
 
 };
 
-//class CircuitOut : public CircuitComponent {
-//public:
+class CircuitOut : public CircuitComponent {
+public:
 
-//    CircuitOut(int outSize):
-//        CircuitComponent{outSize}
-//    {
+    CircuitOut(int outSize):
+        CircuitComponent{outSize, 0}
+    {
 
-//    }
+    }
 
-//    virtual void run() override {
-//        for (int i{}; i < outSize_; i++) { // outSize_ is set to inSize value due to nomenclature of CircuitComponent
-//            // IO Job
-//        }
-//    }
+    virtual void run() override {
+        for (int i{}; i < inSize_; i++) { // outSize_ is set to inSize value due to nomenclature of CircuitComponent
+            // IO Job
+//            qDebug() << pinInArray_[i].state();
+        }
+    }
 
-//};
+};

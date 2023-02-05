@@ -12,6 +12,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QIODevice>
+//#include <gpiod.h>
 
 Scene::Scene(QObject *parent):
     QGraphicsScene{parent},
@@ -19,29 +20,49 @@ Scene::Scene(QObject *parent):
     currentPinOut{nullptr},
     currentWire{nullptr},
     componentList_{},
-    GraphicsIO_{new GraphicsCircuitIO{2, 1}},
+    GraphicsCircuitIn_{new GraphicsCircuitIn{2}},
+    GraphicsCircuitOut_{new GraphicsCircuitOut{1}},
     timer_{}
 {
+//    gpiod_chip *chip;
+//    gpiod_line *lineOut1;
+//    gpiod_line *lineIn1;
+//    int i, val;
+
+//    chip = gpiod_chip_open_by_name("gpiochip0");
+
+//    lineOut1 = gpiod_chip_get_line(chip, 24);
+//    lineIn1 = gpiod_chip_get_line(chip, 6);
+
+//    gpiod_line_request_output(lineOut1, "circuits_project", 0);
+
+//    gpiod_line_request_input(lineIn1, "circuits_project");
+
+//    gpiod_line_get_value(lineIn1);
+
+//    gpiod_line_set_value(lineOut1, 1);
+
+
     timer_.start(15, this);
-    addItem(GraphicsIO_);
-    GraphicsIO_->generatePins();
+    addItem(GraphicsCircuitIn_);
+    addItem(GraphicsCircuitOut_);
+    addComponent(GraphicsCircuitIn_);
+    addComponent(GraphicsCircuitOut_);
+
 }
 
 void Scene::updateComponents() {
     bool circuitInput[2]{true, false};
-    GraphicsIO_->run(circuitInput);
+    GraphicsCircuitIn_->run(circuitInput);
     QList<GraphicsCircuitComponent*>::const_iterator i{};
     for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
         (*i)->updateStates();
-        GraphicsIO_->updateStates();
     }
     for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
         (*i)->run();
-        GraphicsIO_->run();
     }
     for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
         (*i)->updateWires();
-        GraphicsIO_->updateWires();
     }
     for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
         (*i)->updatePinColors();

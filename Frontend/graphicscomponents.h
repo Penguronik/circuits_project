@@ -36,8 +36,37 @@ public:
 
 private:
     GraphicsButtonPin buttonPin_;
-    ButtonComponent *buttonComponent_; //using this system to bypass problems with subclassing graphicscircuitcomponent, when you improve hierarchy by having a base circuitcomponent and another base for gates specifically then you can subclass this from the top and do it without this variable
 
+};
+
+class GraphicsCircuitIn : public GraphicsCircuitComponent {
+public:
+    enum{Type = UserType + 8};
+    int type() const override {return Type; }
+
+    GraphicsCircuitIn(CircuitIn *circuitComponent, QGraphicsItem *parent = nullptr);
+    GraphicsCircuitIn(int inSize, QGraphicsItem *parent = nullptr);
+
+    virtual QRectF boundingRect() const override;
+    virtual QPainterPath shape() const override;
+
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+
+    void run(bool input[]);
+};
+
+class GraphicsCircuitOut : public GraphicsCircuitComponent {
+public:
+    enum{Type = UserType + 9};
+    int type() const override {return Type; }
+
+    GraphicsCircuitOut(CircuitOut *circuitComponent, QGraphicsItem *parent = nullptr);
+    GraphicsCircuitOut(int outSize, QGraphicsItem *parent = nullptr);
+
+    virtual QRectF boundingRect() const override;
+    virtual QPainterPath shape() const override;
+
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 };
 
 

@@ -2,7 +2,7 @@
 #define SCENE_H
 
 // HEADERS
-#include "graphicscircuitio.h"
+#include "Frontend/graphicscomponents.h"
 #include "graphicswire.h"
 #include "graphicscircuitcomponent.h"
 
@@ -45,7 +45,8 @@ private:
     GraphicsPinOut *currentPinOut;
     GraphicsWire *currentWire;
     QList<GraphicsCircuitComponent*> componentList_;
-    GraphicsCircuitIO *GraphicsIO_;
+    GraphicsCircuitIn *GraphicsCircuitIn_;
+    GraphicsCircuitOut *GraphicsCircuitOut_;
     QBasicTimer timer_;
 };
 
