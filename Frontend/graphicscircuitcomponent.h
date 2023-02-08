@@ -26,6 +26,9 @@ public:
     // Destructor
     ~GraphicsCircuitComponent();
 
+    // Events
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
     // Getters
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;

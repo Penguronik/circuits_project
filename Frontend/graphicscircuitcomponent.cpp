@@ -7,6 +7,7 @@
 #include "graphicspinin.h"
 #include "graphicspinout.h"
 #include "body.h"
+#include "qgraphicssceneevent.h"
 
 //QT
 #include <QGraphicsView>
@@ -88,4 +89,8 @@ void GraphicsCircuitComponent::updatePinColors() {
     for (currentPinOut = outPinList_.begin(); currentPinOut != outPinList_.end(); ++currentPinOut) {
         (*currentPinOut)->updatePinColor();
     }
+}
+
+void GraphicsCircuitComponent::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    scene()
 }

@@ -21,7 +21,6 @@ SOURCES += \
     Frontend/body.cpp \
     Frontend/graphicscircuitcomponent.cpp \
     Frontend/graphicscircuitcomponent_copy.cpp \
-    Frontend/graphicscircuitio.cpp \
     Frontend/graphicscomponents.cpp \
     Frontend/graphicsgates.cpp \
     Frontend/graphicspinbase.cpp \
@@ -44,7 +43,6 @@ HEADERS += \
     Frontend/body.h \
     Frontend/constants.h \
     Frontend/graphicscircuitcomponent.h \
-    Frontend/graphicscircuitio.h \
     Frontend/graphicscomponents.h \
     Frontend/graphicsgates.h \
     Frontend/graphicspinbase.h \
