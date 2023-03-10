@@ -2,12 +2,14 @@
 
 # Examples/Gallery type thing
 
-# Project Architecture
+# Explanation of Design Decisions
+As there are many classes that contain and call the functions of each other throughout the code, it might be hard to follow how I approached certain problems even with comments. Below I included a more comprehensive description of some of the more complex or significant parts of the code.
+## Project Architecture
 To add: 
 - Picture of/some basic guidance of OOP and inheritances/containments architecture
 - one example of the flow of a bit from entrance to exit
 
-# Memory Management
+## Memory Management
 There are a lot of moving parts and object instances being created both on the frontend and the backend of this program. 
 So, I had to pay extra care to how I structure my pointers, deletion algorithms, and destructors such that there are no memory leaks or dangling pointers. 
 
@@ -26,7 +28,9 @@ Through this system, most of the projects' memory management can be handled in a
 #### Managing wires
 However, there are some complications that appear due to the existence of wires. This is because both objects that the wire is connected to hold a pointer to the wire.
 In order to prevent wild pointers I handle the deletion of wires or the deletion of components that cause wires to be deleted as follows: 
-1. If the component being deleted is a wire, get both the pins that reference the wire and remove their reference to the wire. Then delete the wire. 
-2. If the component being deleted isn't a wire, then go through the component's pins and go through each wire connected to each pin. For each of these wires, delete the wire using step 1. Finally, delete the component.
+1. When a wire's destructor is called through the delete keyword, the wire "disconnects" itself from any pins by removing any references of itself from those pins
+2. When a component's destructor is called through the delete keyword, the component calls delete on each one of it's pins, and then clears all reference to the pins.
+When the delete keyword is called on a pin, the pin calles the delete keyword on each one of it's wires, and then clears all reference to the wires. The destructor of wires is as outlined above.
+3. When both wires and components are selected to be deleted at once, I go through the selected items and delete the wires first so that the components deleting any other wires connected to them does not cause dangling pointers.
 
 These actions that are applied to a frontend component or wire are also propogated to their backend counterparts in a similar fashion.
