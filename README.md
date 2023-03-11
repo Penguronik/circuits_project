@@ -9,14 +9,12 @@ To add:
 - Picture of/some basic guidance of OOP and inheritances/containments architecture
 - one example of the flow of a bit from entrance to exit
 
-## Memory Management
-There are a lot of moving parts and object instances being created both on the frontend and the backend of this program. 
-So, I had to pay extra care to how I structure my pointers, deletion algorithms, and destructors such that there are no memory leaks or dangling pointers. 
+## Memory and Pointer Management
 
-// POSSIBLY reduce this area because I don't want to sound cocky, I just want to explain my reasoning behind creating this description, maybe just say I thought it would be insighftul to add this description as its not easy to get it from just a read through of the code
+#### Component creation
+The frontend objects have a reference to them stored in the scene object. The scene object has two lists, one only for components that I maintain, and one for adding objects for the Qt framework to display on the scene. Before a frontend object is deleted, it is removed from these two lists to avoid dangling pointers. In most cases the frontend component is responsible for creating the backend component. In some more complex cases such as the creation and connection of frontend and backend pins an approach similar to the one outlined in the flowchart below is taken. This allows the backend component to be responsible for creating the backend pins while still creating a connection between the frontend and backend pins.
 
-#### Component creation/deletion
-The frontend objects have a reference to them stored in the scene object. The scene object has two lists, one only for components that I maintain, and one for adding objects for the Qt framework to display on the scene. Furthermore, the frontend objects create their backend counterparts as a part of their constructor. Before an object is deleted from the screen, it is removed from these two lists to avoid dangling pointers.
+<img src="https://user-images.githubusercontent.com/35043400/224468664-ab5f7433-6c5c-41c6-a5bf-71fd1d1164d3.png" width="650" height="550">
 
 #### Component frontend/backend relationship
 The frontend objects (often labeled with the prefix "graphics") all contain a pointer to their backend counterparts. 
