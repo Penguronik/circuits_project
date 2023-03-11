@@ -1,5 +1,13 @@
 # circuits_project
 
+## Next Steps
+- [X] ~~*ADD the --- stuff you have done*~~
+- [ ] Add time/tick control
+- [ ] Add more components (clock, delay, LED)
+- [ ] Add custom component saving and placing
+- [ ] Add save file system
+- [ ] Add support for analog input and AD/DA converters
+
 # Examples/Gallery type thing
 
 # Explanation of Design Decisions
@@ -7,7 +15,22 @@ As there are many classes that contain and call the functions of each other thro
 ## Project Architecture
 To add: 
 - Picture of/some basic guidance of OOP and inheritances/containments architecture
-- one example of the flow of a bit from entrance to exit
+
+#### Example: The flow of a bit from input to output
+1. The bit is taken from an input source and is stored as a state on a input component
+2. The bit is moved into each wire connected to each pin-out
+3. The bit is moved from each wire to the pin-in of any component they are connected to
+4. The component runs any necessary computation on the bit and sets it to each pin-out's state
+5. The bit is moved from each pin-out to any wire connected to them
+6. Repeat steps 3 - 5 until an output component is reached
+7. The bit is moved from the wire to the output component
+8. The bit is moved from the output component to an output source
+
+#### Maintaining simultaneity
+Simultaneity is maintained throughout the circuit by enacting every step to each component before moving on to the next step. These steps are:
+1. Move state from the pin-in wires to each pin-in's state
+2. Run necessary computation on the pin-in states and set each pin-out's state
+3. Move state from the pin-outs to the wires connected to them
 
 ## Memory and Pointer Management
 
