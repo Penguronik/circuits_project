@@ -17,17 +17,11 @@ public:
     // Destructor
     ~PinBase();
 
-    // Getters
-    CircuitComponent *parentCircuitComponent() const;
-
-    // Setters
-    void setParentCircuitComponent(CircuitComponent *parentCircuitComponent);
-
     // Public Functions
     void addWire(Wire *wire);
+    void removeWire(Wire *wire);
 
 protected:
-    CircuitComponent *parentCircuitComponent_;
     bool state_;
     QList<Wire *> wireList_;
 };

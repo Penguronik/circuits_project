@@ -1,12 +1,17 @@
-User_Type: GraphicsCircuitComponent
-       +1: GraphicsANDGate
-       +2: GraphicsORGate
-       +3: GraphicsNOTGate
-       +4: GraphicsButtonComponent
-       +5: GraphicsButtonPin
-       +8: GraphicsCircuitIn
-       +9: GraphicsCircuitOut
-      +10: GraphicsPinBase
-      +11: GraphicsPinIn
-      +12: GraphicsPinOut
-      +20: GraphicsWire
+User_Type = 65536 = 0b10000000000000000
+All objects before 0b11000000000000000 are not children of GraphicsCircuitComponent
+All objects after 0b11000000000000000 are children of GraphicsCircuitComponent
+
+0b11000000000000000: GraphicsCircuitComponent
+0b11000000000000001: GraphicsANDGate
+0b11000000000000010: GraphicsORGate
+0b11000000000000011: GraphicsNOTGate
+0b11000000000000100: GraphicsCircuitIn
+0b11000000000000101: GraphicsCircuitOut
+0b11000000000000110: GraphicsButtonComponent
+
+0b10000000000000000: GraphicsPinBase
+0b10000000000000001: GraphicsPinIn
+0b10000000000000010: GraphicsPinOut
+0b10000000000000011: GraphicsWire
+0b10000000000000100: GraphicsButtonPin // I can likely deal with this in a better way by using the signal of item clicked or something? consider it and atleast rename it from button pin as that confuses it with the other pins

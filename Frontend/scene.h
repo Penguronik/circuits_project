@@ -38,12 +38,14 @@ public:
     // Public Functions
     void updateComponents();
     void addComponent(GraphicsCircuitComponent *component);
+    void removeComponent(GraphicsCircuitComponent *component);
     GraphicsCircuitComponent *createComponent(QString componentType);
+    void deleteItems();
 
 private:
-    GraphicsPinIn *currentPinIn;
-    GraphicsPinOut *currentPinOut;
-    GraphicsWire *currentWire;
+    GraphicsPinIn *currentPinIn_;
+    GraphicsPinOut *currentPinOut_;
+    GraphicsWire *currentWire_;
     QList<GraphicsCircuitComponent*> componentList_;
     GraphicsCircuitIn *GraphicsCircuitIn_;
     GraphicsCircuitOut *GraphicsCircuitOut_;

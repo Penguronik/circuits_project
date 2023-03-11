@@ -1,7 +1,7 @@
 #include "graphicspinout.h"
 
-GraphicsPinOut::GraphicsPinOut(qreal x, qreal y, qreal width, qreal height, PinOut *pin, int index, QGraphicsItem *parent):
-    GraphicsPinBase{x, y, width, height, index, parent},
+GraphicsPinOut::GraphicsPinOut(qreal x, qreal y, qreal width, qreal height, PinOut *pin, QGraphicsItem *parent):
+    GraphicsPinBase{x, y, width, height, parent},
     pin_{pin}
 {
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);

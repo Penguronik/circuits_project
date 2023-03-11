@@ -32,7 +32,7 @@ protected:
     int inSize_;
     int outSize_;
     PinIn *pinInArray_;
-    PinOut *pinOutArray_;
+    PinOut *pinOutArray_; // either switch this to QList or switch frontend to arrays, they represent the same information anyways
 
 };
 

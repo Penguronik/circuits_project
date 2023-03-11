@@ -17,6 +17,10 @@ public:
     virtual void wheelEvent(QWheelEvent *event) override;
 //    virtual void mousePressEvent(QMouseEvent *event) override;
 //    virtual void mouseReleaseEvent(QMouseEvent *event) override;
+
+    // Public Functions
+    void setDragToScroll();
+    void setDragToBand();
 };
 
 #endif // VIEW_H

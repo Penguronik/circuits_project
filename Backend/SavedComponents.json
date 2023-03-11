@@ -1,7 +1,7 @@
 {
     "Base Gates" : ["NOT Gate", "OR Gate", "AND Gate"],
 
-    "Utility Components" : ["Button"],
+    "Utility Components" : ["Circuit In", "Circuit Out", "Button"],
 
     "Custom Components" : [
         {

@@ -9,7 +9,7 @@ class GraphicsANDGate : public GraphicsCircuitComponent
 public:
 
     // Qt Type
-    enum{Type = UserType + 1};
+    enum{Type = 0b11000000000000001};
     int type() const override { return Type; }
 
     // Constructor
@@ -26,7 +26,7 @@ class GraphicsORGate : public GraphicsCircuitComponent
 public:
 
     // Qt Type
-    enum{Type = UserType + 2};
+    enum{Type = 0b11000000000000010};
     int type() const override { return Type; }
 
     GraphicsORGate(ORGate *circuitComponent = new ORGate{}, QGraphicsItem *parent = nullptr);
@@ -42,7 +42,7 @@ class GraphicsNOTGate : public GraphicsCircuitComponent
 public:
 
     // Qt Type
-    enum{Type = UserType + 3};
+    enum{Type = 0b11000000000000011};
     int type() const override { return Type; }
 
     GraphicsNOTGate(NOTGate *circuitComponent = new NOTGate{}, QGraphicsItem *parent = nullptr);

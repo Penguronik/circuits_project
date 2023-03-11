@@ -1,4 +1,5 @@
 #include "graphicscomponents.h"
+#include "qstyleoption.h"
 
 GraphicsButtonComponent::GraphicsButtonComponent(ButtonComponent *circuitComponent, QGraphicsItem *parent):
     GraphicsCircuitComponent(circuitComponent, parent),
@@ -103,6 +104,10 @@ void GraphicsCircuitOut::paint(QPainter *painter, const QStyleOptionGraphicsItem
     painter->setPen(QPen{Qt::black, 2});
     painter->setBrush(Qt::gray);
     painter->drawPath(path);
+    if (option->state & QStyle::State_Selected) {
+        painter->setPen(QPen{Qt::black, 2, Qt::DashLine});
+        painter->drawRect(boundingRect());
+    }
 }
 
 void GraphicsCircuitIn::run(bool input[]) {

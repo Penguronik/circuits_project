@@ -1,4 +1,5 @@
 #include "graphicsgates.h"
+#include "qstyleoption.h"
 
 
 GraphicsANDGate::GraphicsANDGate(ANDGate *circuitComponent, QGraphicsItem *parent):
@@ -25,6 +26,12 @@ void GraphicsANDGate::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     painter->setPen(QPen{Qt::black, 2});
     painter->setBrush(Qt::gray);
     painter->drawPath(path);
+    // creates border on select use this on all the items
+    if (option->state & QStyle::State_Selected) {
+        painter->setBrush(Qt::transparent);
+        painter->setPen(QPen{Qt::black, 2, Qt::DashLine});
+        painter->drawRect(boundingRect());
+    }
 }
 
 GraphicsORGate::GraphicsORGate(ORGate *circuitComponent, QGraphicsItem *parent):

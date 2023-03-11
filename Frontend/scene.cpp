@@ -16,12 +16,10 @@
 
 Scene::Scene(QObject *parent):
     QGraphicsScene{parent},
-    currentPinIn{nullptr},
-    currentPinOut{nullptr},
-    currentWire{nullptr},
+    currentPinIn_{nullptr},
+    currentPinOut_{nullptr},
+    currentWire_{nullptr},
     componentList_{},
-    GraphicsCircuitIn_{new GraphicsCircuitIn{2}},
-    GraphicsCircuitOut_{new GraphicsCircuitOut{1}},
     timer_{}
 {
 //    gpiod_chip *chip;
@@ -44,17 +42,24 @@ Scene::Scene(QObject *parent):
 
 
     timer_.start(15, this);
-    addItem(GraphicsCircuitIn_);
-    addItem(GraphicsCircuitOut_);
-    addComponent(GraphicsCircuitIn_);
-    addComponent(GraphicsCircuitOut_);
-
+    GraphicsCircuitIn *beginningGraphicsCircuitIn = new GraphicsCircuitIn{2};
+    GraphicsCircuitOut *beginningGraphicsCircuitOut = new GraphicsCircuitOut{1};
+    addItem(beginningGraphicsCircuitIn);
+    addItem(beginningGraphicsCircuitOut);
+    addComponent(beginningGraphicsCircuitIn);
+    addComponent(beginningGraphicsCircuitOut);
 }
 
 void Scene::updateComponents() {
     bool circuitInput[2]{true, false};
-    GraphicsCircuitIn_->run(circuitInput);
     QList<GraphicsCircuitComponent*>::const_iterator i{};
+    for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
+        GraphicsCircuitIn *circuitIn = qgraphicsitem_cast<GraphicsCircuitIn *>(*i);
+        if (circuitIn) {
+            circuitIn->run(circuitInput);
+        }
+    }
+
     for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
         (*i)->updateStates();
     }
@@ -82,7 +87,6 @@ void Scene::keyPressEvent(QKeyEvent *event) {
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
-
     if (event->button() == Qt::LeftButton){
         // Get all items at clicked position and iterate through them.
         QList<QGraphicsItem*> candidateItems {items(event->scenePos())};
@@ -94,35 +98,38 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             if (( (*i)->type() != GraphicsWire::Type )) {
                 // FIX COMMENTS THIS IS WRONG: Cast to GraphicsPinIn if it is a pinIn, GraphicsPinOut if it is a pin out, and nullptr otherwise
                 if ( (*i)->type() == GraphicsPinIn::Type ) {
-                    currentPinIn = qgraphicsitem_cast<GraphicsPinIn *>(*i);
+                    currentPinIn_ = qgraphicsitem_cast<GraphicsPinIn *>(*i);
                 } else if ( (*i)->type() == GraphicsPinOut::Type ) {
-                    currentPinOut = qgraphicsitem_cast<GraphicsPinOut *>(*i);
+                    currentPinOut_ = qgraphicsitem_cast<GraphicsPinOut *>(*i);
                 }
                 break;
             }
         }
 
         // If currentPin exists, create a wire that starts at the Pin's center
-        if (currentPinIn) {
+        if (currentPinIn_) {
+            // so that rubber band isnt used
+            event->setAccepted(true);
 
-            currentWire = new GraphicsWire{};
+            currentWire_ = new GraphicsWire{};
 
-            currentWire->setPinInPosition(currentPinIn->sceneBoundingRect().center());
-            currentWire->setPinOutPosition(event->scenePos());
+            currentWire_->setPinInPosition(currentPinIn_->sceneBoundingRect().center());
+            currentWire_->setPinOutPosition(event->scenePos());
 
-            currentWire->setStyle(GraphicsWire::NotAttached);
+            currentWire_->setStyle(GraphicsWire::NotAttached);
 
-            addItem(currentWire);
-        } else if (currentPinOut) {
+            addItem(currentWire_);
+        } else if (currentPinOut_) {
+            event->setAccepted(true);
 
-            currentWire = new GraphicsWire{};
+            currentWire_ = new GraphicsWire{};
 
-            currentWire->setPinInPosition(event->scenePos());
-            currentWire->setPinOutPosition(currentPinOut->sceneBoundingRect().center());
+            currentWire_->setPinInPosition(event->scenePos());
+            currentWire_->setPinOutPosition(currentPinOut_->sceneBoundingRect().center());
 
-            currentWire->setStyle(GraphicsWire::NotAttached);
+            currentWire_->setStyle(GraphicsWire::NotAttached);
 
-            addItem(currentWire);
+            addItem(currentWire_);
         }
 
         // If the event is not used, pass it to parent class
@@ -135,13 +142,13 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-    if(currentPinIn){
+    if(currentPinIn_){
 
-        currentWire->setPinOutPosition(event->scenePos());
+        currentWire_->setPinOutPosition(event->scenePos());
 
-    } else if (currentPinOut) {
+    } else if (currentPinOut_) {
 
-        currentWire->setPinInPosition(event->scenePos());
+        currentWire_->setPinInPosition(event->scenePos());
 
     }
 
@@ -151,61 +158,59 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
-    if(currentPinIn) {
+    if(currentPinIn_) {
         QList<QGraphicsItem*> candidateItems {items(event->scenePos())};
         QList<QGraphicsItem*>::const_iterator i{};
         for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
 
             if ((*i)->type() != GraphicsWire::Type) {
-                currentPinOut = qgraphicsitem_cast<GraphicsPinOut *>(*i);
+                currentPinOut_ = qgraphicsitem_cast<GraphicsPinOut *>(*i);
                 break;
             }
         }
 
-        if (currentPinOut) {
-            currentWire->setPinOutPosition(currentPinOut->sceneBoundingRect().center());
+        if (currentPinOut_) {
+            currentWire_->setPinOutPosition(currentPinOut_->sceneBoundingRect().center());
 
-            currentWire->connect(currentPinIn, currentPinOut); // if you want to allow for wire placements before full connection at some point then you'll have to move the addWire functions outside of the connect function
-            currentWire->setStyle(GraphicsWire::Attached);
+            currentWire_->connect(currentPinIn_, currentPinOut_); // if you want to allow for wire placements before full connection at some point then you'll have to move the addWire functions outside of the connect function
+            currentWire_->setStyle(GraphicsWire::Attached);
 
         }
 
         else {
-            currentPinIn->removeWire(currentWire);
-            delete currentWire;
+            delete currentWire_;
         }
 
-        currentWire = nullptr;
-        currentPinIn = nullptr;
-        currentPinOut = nullptr;
+        currentWire_ = nullptr;
+        currentPinIn_ = nullptr;
+        currentPinOut_ = nullptr;
 
-    } else if (currentPinOut) {
+    } else if (currentPinOut_) {
         QList<QGraphicsItem*> candidateItems {items(event->scenePos())};
         QList<QGraphicsItem*>::const_iterator i{};
         for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
 
             if ((*i)->type() != GraphicsWire::Type) {
-                currentPinIn = qgraphicsitem_cast<GraphicsPinIn *>(*i);
+                currentPinIn_ = qgraphicsitem_cast<GraphicsPinIn *>(*i);
                 break;
             }
         }
 
-        if (currentPinIn) {
-            currentWire->setPinInPosition(currentPinIn->sceneBoundingRect().center());
+        if (currentPinIn_) {
+            currentWire_->setPinInPosition(currentPinIn_->sceneBoundingRect().center());
 
-            currentWire->connect(currentPinIn, currentPinOut);
-            currentWire->setStyle(GraphicsWire::Attached);
+            currentWire_->connect(currentPinIn_, currentPinOut_);
+            currentWire_->setStyle(GraphicsWire::Attached);
 
         }
 
         else {
-            currentPinOut->removeWire(currentWire);
-            delete currentWire;
+            delete currentWire_;
         }
 
-        currentWire = nullptr;
-        currentPinIn = nullptr;
-        currentPinOut = nullptr;
+        currentWire_ = nullptr;
+        currentPinIn_ = nullptr;
+        currentPinOut_ = nullptr;
     }
 
     else {
@@ -275,6 +280,10 @@ void Scene::addComponent(GraphicsCircuitComponent *component) {
     componentList_.append(component);
 }
 
+void Scene::removeComponent(GraphicsCircuitComponent *component) {
+    componentList_.removeAll(component);
+}
+
 GraphicsCircuitComponent *Scene::createComponent(QString componentType) {
     if (componentType == "NOT Gate") {
         return new GraphicsNOTGate{};
@@ -282,6 +291,10 @@ GraphicsCircuitComponent *Scene::createComponent(QString componentType) {
         return new GraphicsORGate{};
     } else if (componentType == "AND Gate") {
         return new GraphicsANDGate{};
+    } else if (componentType == "Circuit In") {
+        return new GraphicsCircuitIn{1};
+    } else if (componentType == "Circuit Out") {
+        return new GraphicsCircuitOut{1};
     } else if (componentType == "Button") {
         return new GraphicsButtonComponent{};
     }
@@ -291,4 +304,27 @@ GraphicsCircuitComponent *Scene::createComponent(QString componentType) {
 
 QList<GraphicsCircuitComponent*> &Scene::componentList() {
     return componentList_;
+}
+
+void Scene::deleteItems()
+{
+    // remove wires first to prevent issues with wires trying to be deleted after a component already deleted the wire
+    QList<QGraphicsItem *> candidateItems = selectedItems();
+    QList<QGraphicsItem*>::const_iterator i{};
+    for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
+        if ((*i)->type() == GraphicsWire::Type) {
+            removeItem(*i);
+            delete *i;
+        }
+    }
+
+    candidateItems = selectedItems(); // get the new list without the wires
+    for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
+        if ((*i)->type() > GraphicsCircuitComponent::Type) { // only the children of GraphicsCircuitComponent have a type greater than it
+            GraphicsCircuitComponent *component = static_cast<GraphicsCircuitComponent *>(*i);
+            removeComponent(component);
+        }
+        removeItem(*i);
+        delete *i;
+    }
 }

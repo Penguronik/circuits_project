@@ -8,7 +8,7 @@ class GraphicsButtonPin : public QGraphicsEllipseItem
 {
 public:
 
-    enum{Type = UserType + 5};
+    enum{Type = 0b10000000000000100};
     int type() const override {return Type; }
 
     GraphicsButtonPin(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent = nullptr);
@@ -22,7 +22,7 @@ class GraphicsButtonComponent : public GraphicsCircuitComponent
 public:
 
     // Qt Type
-    enum{Type = UserType + 4};
+    enum{Type = 0b11000000000000110};
     int type() const override { return Type; }
 
     GraphicsButtonComponent(ButtonComponent *circuitComponent = new ButtonComponent{}, QGraphicsItem *parent = nullptr);
@@ -41,7 +41,7 @@ private:
 
 class GraphicsCircuitIn : public GraphicsCircuitComponent {
 public:
-    enum{Type = UserType + 8};
+    enum{Type = 0b11000000000000100};
     int type() const override {return Type; }
 
     GraphicsCircuitIn(CircuitIn *circuitComponent, QGraphicsItem *parent = nullptr);
@@ -53,11 +53,12 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     void run(bool input[]);
+
 };
 
 class GraphicsCircuitOut : public GraphicsCircuitComponent {
 public:
-    enum{Type = UserType + 9};
+    enum{Type = 0b11000000000000101};
     int type() const override {return Type; }
 
     GraphicsCircuitOut(CircuitOut *circuitComponent, QGraphicsItem *parent = nullptr);

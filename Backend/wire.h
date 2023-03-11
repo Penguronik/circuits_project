@@ -18,6 +18,8 @@ public:
 
     void connect(PinIn *pinIn, PinOut *pinOut);
 
+    void disconnect();
+
 private:
     bool state_;
     PinIn *pinIn_;

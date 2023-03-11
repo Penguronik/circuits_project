@@ -16,22 +16,23 @@
 GraphicsCircuitComponent::GraphicsCircuitComponent(CircuitComponent *circuitComponent, QGraphicsItem *parent):
     QGraphicsItem{parent},
     body_{new Body{0, 0, 50, 30, this}}, //A RENAME IS DEFINITELY NECESSARY VERY SOON
-    inPinList_{}, //consider making them arrays instead of lists
-    outPinList_{},
+    pinInList_{}, //consider making them arrays instead of lists
+    pinOutList_{},
     circuitComponent_{circuitComponent}
 {
     generateInPins();
     generateOutPins();
     setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemIsSelectable);
 }
 
 GraphicsCircuitComponent::~GraphicsCircuitComponent() {
     delete body_;
     body_ = nullptr;
-    qDeleteAll(inPinList_);
-    inPinList_.clear();
-    qDeleteAll(outPinList_);
-    outPinList_.clear();
+    qDeleteAll(pinInList_);
+    pinInList_.clear();
+    qDeleteAll(pinOutList_);
+    pinOutList_.clear();
     delete circuitComponent_;
     circuitComponent_ = nullptr;
 }
@@ -49,12 +50,13 @@ QPainterPath GraphicsCircuitComponent::shape() const {
 }
 
 void GraphicsCircuitComponent::generateInPins() {
+    qDebug() << "generating inpins";
     qreal interval {body_->boundingRect().height()/circuitComponent_->inSize()};
     QPointF topLeft {body_->boundingRect().topLeft()};
     topLeft.setY(topLeft.y() + interval/2 - constant::PIN_DIAMETER/2);
     topLeft.setX(topLeft.x() - constant::PIN_DIAMETER/2);
     for (int i {0}; i < circuitComponent_->inSize(); i++) {
-        inPinList_.append(new GraphicsPinIn{topLeft.x(), topLeft.y() + interval*i, constant::PIN_DIAMETER, constant::PIN_DIAMETER, circuitComponent_->pinInArray() + i, i, this});
+        pinInList_.append(new GraphicsPinIn{topLeft.x(), topLeft.y() + interval*i, constant::PIN_DIAMETER, constant::PIN_DIAMETER, circuitComponent_->pinInArray() + i, this}); //
     }
 }
 
@@ -64,7 +66,7 @@ void GraphicsCircuitComponent::generateOutPins() {
     topRight.setY(topRight.y() + interval/2 - constant::PIN_DIAMETER/2);
     topRight.setX(topRight.x() - constant::PIN_DIAMETER/2);
     for (int i {0}; i < circuitComponent_->outSize(); i++) {
-        outPinList_.append(new GraphicsPinOut{topRight.x(), topRight.y() + interval*i, constant::PIN_DIAMETER, constant::PIN_DIAMETER, circuitComponent_->pinOutArray() + i, i, this});
+        pinOutList_.append(new GraphicsPinOut{topRight.x(), topRight.y() + interval*i, constant::PIN_DIAMETER, constant::PIN_DIAMETER, circuitComponent_->pinOutArray() + i, this});
     }
 }
 
@@ -82,15 +84,11 @@ void GraphicsCircuitComponent::run() {
 
 void GraphicsCircuitComponent::updatePinColors() {
     QList<GraphicsPinIn*>::iterator currentPinIn{};
-    for (currentPinIn = inPinList_.begin(); currentPinIn != inPinList_.end(); ++currentPinIn) {
+    for (currentPinIn = pinInList_.begin(); currentPinIn != pinInList_.end(); ++currentPinIn) {
         (*currentPinIn)->updatePinColor();
     }
     QList<GraphicsPinOut*>::iterator currentPinOut{};
-    for (currentPinOut = outPinList_.begin(); currentPinOut != outPinList_.end(); ++currentPinOut) {
+    for (currentPinOut = pinOutList_.begin(); currentPinOut != pinOutList_.end(); ++currentPinOut) {
         (*currentPinOut)->updatePinColor();
     }
-}
-
-void GraphicsCircuitComponent::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-    scene()
 }

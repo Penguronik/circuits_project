@@ -6,13 +6,7 @@ CircuitComponent::CircuitComponent(int inSize, int outSize):
     pinInArray_{new PinIn[inSize_]{}},
     pinOutArray_{new PinOut[outSize_]{}}
 {
-    for (int i{0}; i < inSize_; i++) {
-        pinInArray_[i].setParentCircuitComponent(this);
-    }
 
-    for (int j{0}; j < outSize_; j++) {
-        pinOutArray_[j].setParentCircuitComponent(this);
-    }
 }
 
 CircuitComponent::~CircuitComponent(){

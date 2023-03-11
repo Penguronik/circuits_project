@@ -4,7 +4,6 @@
 //HEADERS
 #include "graphicscomponents.h"
 #include "graphicsgates.h"
-#include "graphicscircuitio.h"
 #include "scene.h"
 #include "view.h"
 #include <QMainWindow>

@@ -3,8 +3,10 @@
 
 //HEADERS
 #include "Backend/circuitcomponent.h"
+class GraphicsWire;
 #include "body.h"
-#include "graphicspinbase.h"
+class GraphicsPinIn;
+class GraphicsPinOut;
 
 //QT
 #include <QGraphicsItemGroup>
@@ -17,7 +19,7 @@ class GraphicsCircuitComponent : public QGraphicsItem
 public:
 
     // Qt Type
-    enum{Type = UserType};
+    enum{Type = 0b11000000000000000};
     virtual int type() const override { return Type; }
 
     // Constructors
@@ -26,11 +28,8 @@ public:
     // Destructor
     ~GraphicsCircuitComponent();
 
-    // Events
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-
     // Getters
-    virtual QRectF boundingRect() const override;
+    virtual QRectF boundingRect() const override; // get rid of these overridden functions and make GraphicsCircuitComponent abstract/"virtual"
     virtual QPainterPath shape() const override;
 
     // Public Functions
@@ -42,10 +41,11 @@ public:
     void run();
     void updatePinColors();
 
+
 protected:
     Body *body_;
-    QList<GraphicsPinIn*> inPinList_;
-    QList<GraphicsPinOut*> outPinList_;
+    QList<GraphicsPinIn*> pinInList_;
+    QList<GraphicsPinOut*> pinOutList_;
     CircuitComponent *circuitComponent_;
 
 };

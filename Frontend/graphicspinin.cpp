@@ -1,9 +1,10 @@
 #include "graphicspinin.h"
 
-GraphicsPinIn::GraphicsPinIn(qreal x, qreal y, qreal width, qreal height, PinIn *pin, int index, QGraphicsItem *parent):
-    GraphicsPinBase{x, y, width, height, index, parent},
+GraphicsPinIn::GraphicsPinIn(qreal x, qreal y, qreal width, qreal height, PinIn *pin, QGraphicsItem *parent):
+    GraphicsPinBase{x, y, width, height, parent},
     pin_{pin}
 {
+    qDebug() << "Another inpin" << pin;
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 }
 
@@ -11,12 +12,11 @@ GraphicsPinIn::~GraphicsPinIn() {
     pin_ = nullptr; // The expectation is that the backend component will delete the backend pin
 }
 
-PinIn *GraphicsPinIn::pin() const
-{
+PinIn *GraphicsPinIn::pin() const {
     return pin_;
 }
 
-bool GraphicsPinIn::state() const{
+bool GraphicsPinIn::state() const {
     return pin()->state();
 }
 

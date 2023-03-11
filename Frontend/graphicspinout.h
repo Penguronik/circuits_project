@@ -9,10 +9,10 @@ class GraphicsPinOut : public GraphicsPinBase
 public:
 
     // Qt Type
-    enum{Type = UserType + 12};
+    enum{Type = 0b10000000000000010};
     int type() const override { return Type; }
 
-    GraphicsPinOut(qreal x, qreal y, qreal width, qreal height, PinOut *pin, int index, QGraphicsItem *parent = nullptr);
+    GraphicsPinOut(qreal x, qreal y, qreal width, qreal height, PinOut *pin, QGraphicsItem *parent = nullptr);
 
     ~GraphicsPinOut();
 

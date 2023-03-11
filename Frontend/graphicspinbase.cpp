@@ -10,9 +10,8 @@
 
 #include <iostream>
 
-GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, int index, QGraphicsItem *parent):
-    QGraphicsEllipseItem{0, 0, width, height, parent}, // Original rectangle is set to 0, 0 in order to use pos() instead of boundingrect() to follow position
-    wireList_{}
+GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent):
+    QGraphicsEllipseItem{0, 0, width, height, parent} // Original rectangle is set to 0, 0 in order to use pos() instead of boundingrect() to follow position
 {
     setPos(x, y);
     setAcceptHoverEvents(true);
@@ -23,14 +22,16 @@ GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, in
     std::cout << "bouunding rect x: " << mapToScene(boundingRect().center()).x() << "bouunding rect y: " << mapToScene(boundingRect().center()).y() << std::endl;
 }
 
-GraphicsPinBase::~GraphicsPinBase() {
-    wireList_.clear();
-}
-
-GraphicsPinBase::GraphicsPinBase(const QRectF &rect, int index, QGraphicsItem *parent):
-    GraphicsPinBase{rect.x(), rect.y(), rect.width(), rect.height(), index, parent}
+GraphicsPinBase::GraphicsPinBase(const QRectF &rect, QGraphicsItem *parent):
+    GraphicsPinBase{rect.x(), rect.y(), rect.width(), rect.height(), parent}
 {
 
+}
+
+GraphicsPinBase::~GraphicsPinBase() {
+    qDebug() << "deleting pin";
+    qDeleteAll(wireList_); // you may run into an issue with using this, do some tests to see, you may need to create a copy and delete each that way because iterating through the list may be affected otherwise
+    wireList_.clear(); // this clear should be unnecessary realistically because the wire deletes should clear all occurences of every wire from the list anyways
 }
 
 void GraphicsPinBase::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
@@ -53,8 +54,9 @@ void GraphicsPinBase::addWire(GraphicsWire *wire) {
 }
 
 void GraphicsPinBase::removeWire(GraphicsWire *wire) {
-    wireList_.removeOne(wire);
+    wireList_.removeAll(wire);
 }
+
 
 void GraphicsPinBase::updatePinColor() {
     if (state()) {

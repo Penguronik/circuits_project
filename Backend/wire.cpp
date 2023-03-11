@@ -3,15 +3,14 @@
 #include "Backend/pinout.h"
 
 Wire::Wire():
-    pinIn_{nullptr},
+    pinIn_{nullptr},  // INITIALIZE ALL POINTERS TO NULLPTR (I KNOW THERE ARE A LOT OF UNINITIALIZED POINTERS AND THEY ARE DANGEROUS RIGHT NOW
     pinOut_{nullptr}
 {
 
 }
 
 Wire::~Wire() {
-    pinIn_ = nullptr;
-    pinOut_ = nullptr;
+    disconnect();
 }
 
 bool Wire::state() {
@@ -27,4 +26,11 @@ void Wire::connect(PinIn *pinIn, PinOut *pinOut) {
     pinOut_ = pinOut;
     pinIn->addWire(this);
     pinOut->addWire(this);
+}
+
+void Wire::disconnect() {
+    if (pinIn_) pinIn_->removeWire(this);
+    if (pinOut_) pinOut_->removeWire(this);
+    pinIn_ = nullptr;
+    pinOut_ = nullptr;
 }

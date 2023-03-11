@@ -3,16 +3,17 @@
 
 #include "Backend/pinin.h"
 #include "graphicspinbase.h"
+#include "graphicscircuitcomponent.h"
 
 class GraphicsPinIn : public GraphicsPinBase
 {
 public:
 
     // Qt Type
-    enum{Type = UserType + 11};
+    enum{Type = 0b10000000000000001};
     virtual int type() const override { return Type; }
 
-    GraphicsPinIn(qreal x, qreal y, qreal width, qreal height, PinIn *pin, int index, QGraphicsItem *parent = nullptr);
+    GraphicsPinIn(qreal x, qreal y, qreal width, qreal height, PinIn *pin, QGraphicsItem *parent = nullptr);
 
     ~GraphicsPinIn();
 

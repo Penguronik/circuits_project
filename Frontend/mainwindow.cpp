@@ -29,7 +29,8 @@ MainWindow::MainWindow(QWidget *parent):
 
     ComponentTreeModel *model {new ComponentTreeModel{}};
 
-    QTreeView *tree{new QTreeView{}};
+    QTreeView *tree{new QTreeView{}}; // turn these variables into member variables
+    // turn the related list of functions to its own function to clean this up
 //    tree.setAnimated(true);
 //    tree.setIndentation(20);
 //    tree.setAcceptDrops(true);
@@ -66,5 +67,25 @@ MainWindow::MainWindow(QWidget *parent):
 //    setCentralWidget(frame);
 //    view_->hide();
 //    tree->show();
+
+    QAction *deleteAction = new QAction(QIcon(":/icons/delete.png"), tr("&Delete"), this); // thats how u set relative image path :)
+    deleteAction->setShortcut(tr("Delete"));
+    deleteAction->setStatusTip(tr("Delete item from diagram"));
+    connect(deleteAction, &QAction::triggered, scene_, &Scene::deleteItems);
+
+    QAction *scrollDragAction = new QAction(QIcon(":/icons/drag.png"), tr("&Drag"), this); // thats how u set relative image path :)
+    scrollDragAction->setShortcut(tr("Ctrl + D"));
+    scrollDragAction->setStatusTip(tr("Drag to move"));
+    connect(scrollDragAction, &QAction::triggered, view_, &View::setDragToScroll);
+
+    QAction *bandDragAction = new QAction(QIcon(":/icons/select.png"), tr("&Select"), this); // thats how u set relative image path :)
+    bandDragAction->setShortcut(tr("Ctrl + S"));
+    bandDragAction->setStatusTip(tr("Drag to select"));
+    connect(bandDragAction, &QAction::triggered, view_, &View::setDragToBand);
+
+    QToolBar *editToolBar = addToolBar(tr("Edit"));
+    editToolBar->addAction(deleteAction);
+    editToolBar->addAction(scrollDragAction);
+    editToolBar->addAction(bandDragAction);
 
 }

@@ -13,12 +13,12 @@ class GraphicsPinBase : public QGraphicsEllipseItem
 public:
 
     // Qt Type
-    enum{Type = UserType + 10};
+    enum{Type = 0b10000000000000000};
     virtual int type() const override { return Type; }
 
     // Constructors
-    explicit GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, int index, QGraphicsItem *parent = nullptr);
-    explicit GraphicsPinBase(const QRectF &rect, int index, QGraphicsItem *parent = nullptr);
+    explicit GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent = nullptr);
+    explicit GraphicsPinBase(const QRectF &rect, QGraphicsItem *parent = nullptr);
 
     // Destructors
     virtual ~GraphicsPinBase();

@@ -17,9 +17,10 @@ View::View(QGraphicsScene * scene, QWidget * parent):
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setAcceptDrops(true);
-    QPainter *painter{};
-    painter->drawPixmap(QRect{0, 0, 50, 50}, QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/Trash_Icon.png"});
-    drawForeground(painter, QRectF{0, 0, 50, 50});
+    setDragMode(QGraphicsView::RubberBandDrag);
+//    QPainter *painter{};
+//    painter->drawPixmap(QRect{0, 0, 50, 50}, QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/Trash_Icon.png"});
+//    drawForeground(painter, QRectF{0, 0, 50, 50});
 }
 
 void View::resizeEvent(QResizeEvent *event) {
@@ -61,4 +62,14 @@ void View::wheelEvent(QWheelEvent *event) {
     } else {
         QGraphicsView::wheelEvent(event);
     }
+}
+
+// Slot connected to a QAction in MainWindow
+void View::setDragToScroll() {
+    setDragMode(QGraphicsView::ScrollHandDrag);
+}
+
+// Slot connected to a QAction in MainWindow
+void View::setDragToBand() {
+    setDragMode(QGraphicsView::RubberBandDrag);
 }
