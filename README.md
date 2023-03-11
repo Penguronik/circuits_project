@@ -15,6 +15,7 @@ As there are many classes that contain and call the functions of each other thro
 ## Project Architecture
 To add: 
 - Picture of/some basic guidance of OOP and inheritances/containments architecture
+- Maybe turn the flow of a bit from input to output into a flowchart as well and make it horizontally progressing flowchart to make it look nicer on the screen
 
 #### Example: The flow of a bit from input to output
 1. The bit is taken from an input source and is stored as a state on a input component
