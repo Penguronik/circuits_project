@@ -59,3 +59,4 @@ These actions that are applied to a frontend component or wire are also propogat
 
 # To Format:
 Icons from: https://spinningnumbers.org/a/logic-gates.html under Attribution-NonCommercial-ShareAlike license
+<a href="https://www.flaticon.com/free-icons/trash" title="trash icons">Trash icons created by Pixel perfect - Flaticon</a>
