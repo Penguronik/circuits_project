@@ -110,6 +110,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         if (currentPinIn_) {
             // so that rubber band isnt used
             event->setAccepted(true);
+            clearSelection(); // clears selected items as the mouse click is accepted
 
             currentWire_ = new GraphicsWire{};
 
@@ -121,6 +122,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             addItem(currentWire_);
         } else if (currentPinOut_) {
             event->setAccepted(true);
+            clearSelection(); // clears selected items as the mouse click is accepted
 
             currentWire_ = new GraphicsWire{};
 

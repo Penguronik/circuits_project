@@ -5,84 +5,105 @@
 GraphicsANDGate::GraphicsANDGate(ANDGate *circuitComponent, QGraphicsItem *parent):
     GraphicsCircuitComponent(circuitComponent, parent)
 {
+    int rectWidth = 15;
+    int height = 30; // also is circumference
+    // draw top of rectangle
+    painterPath_.lineTo(rectWidth, 0);
+    // draw circular arc
+    painterPath_.arcTo(rectWidth, 0, height, height, 90, -180);
+    // draw bottom and left of rectangle
+    painterPath_.lineTo(0, height);
+    painterPath_.lineTo(0,0);
 
+    generatePins();
 }
 
-QRectF GraphicsANDGate::boundingRect() const {
-    return QRectF{0, 0, 52, 32};
-}
+void GraphicsANDGate::generatePins() {
+    QRectF rect = painterPath_.boundingRect();
 
-QPainterPath GraphicsANDGate::shape() const {
-    QPainterPath path{};
-    path.lineTo(30, 0);
-    path.arcTo(30, 0, 20, 30, 90, -180);
-    path.lineTo(0, 30);
-    path.closeSubpath();
-    return path;
-}
+    // pin-ins
+    qreal interval {rect.height()/4};
+    addPinInAtCenterPoint(0, interval, 0);
+    addPinInAtCenterPoint(0, interval*3, 1);
 
-void GraphicsANDGate::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    QPainterPath path{shape()};
-    painter->setPen(QPen{Qt::black, 2});
-    painter->setBrush(Qt::gray);
-    painter->drawPath(path);
-    // creates border on select use this on all the items
-    if (option->state & QStyle::State_Selected) {
-        painter->setBrush(Qt::transparent);
-        painter->setPen(QPen{Qt::black, 2, Qt::DashLine});
-        painter->drawRect(boundingRect());
-    }
+    // pin-outs
+    addPinOutAtCenterPoint(rect.width(), rect.height()/2, 0);
 }
 
 GraphicsORGate::GraphicsORGate(ORGate *circuitComponent, QGraphicsItem *parent):
     GraphicsCircuitComponent(circuitComponent, parent)
 {
+    int radius = 35; // constructed from three arcs of the same radius
+    QPainterPath arc1 {};
+    QPainterPath arc2 {};
+    //
+    // Draw left arc   \
+    //                 /
+    //
+    arc2.arcMoveTo(0, 0, 2*radius, 2*radius, 30);
+    arc2.arcTo(0, 0, 2*radius, 2*radius, 30, -60);
+    //
+    // Draw top arc    \ \
+    //                 /
+    //
+    arc1.arcMoveTo(1.25*radius, 0.5*radius, 2*radius, 2*radius, 30);
+    arc1.arcTo(1.25*radius, 0.5*radius, 2*radius, 2*radius, 30, 60);
+    //
+    // Draw bottom arc \ \
+    //                 / /
+    //
+    painterPath_.arcMoveTo(1.25*radius, -0.5*radius, 2*radius, 2*radius, -90);
+    painterPath_.arcTo(1.25*radius, -0.5*radius, 2*radius, 2*radius, -90, 60);
+    //                 __
+    // Connect arcs    \ \
+    // with lines      /_/
+    //
+    arc1.connectPath(arc2);
+    painterPath_.connectPath(arc1);
+    painterPath_.lineTo(2.25*radius, 1.5*radius);
 
+    // Translate path such that (0, 0) is it's top left corner
+    painterPath_.translate(-painterPath_.boundingRect().x(), -painterPath_.boundingRect().y());
+
+    generatePins();
 }
 
-QRectF GraphicsORGate::boundingRect() const {
-    return QRectF{0, 0, 52, 32};
-}
+void GraphicsORGate::generatePins() {
+    QRectF rect = painterPath_.boundingRect();
 
-QPainterPath GraphicsORGate::shape() const {
-    QPainterPath path{};
-    path.lineTo(16, 0);
-    path.arcTo(16-40, 0, 2*40, 2*40, 90, -50);
-    path.arcTo(16-40, -10-40, 2*40, 2*40, -40, -50);
-    path.lineTo(0, 30);
-    path.arcTo(-56, 30/2-30, 30*2, 30*2, -30, 60);
-    path.closeSubpath();
-    return path;
-}
+    // pin-ins
+    qreal interval {rect.height()/4};
+    addPinInAtCenterPoint(0, interval, 0);
+    addPinInAtCenterPoint(0, interval*3, 1);
 
-void GraphicsORGate::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    QPainterPath path{shape()};
-    painter->setPen(QPen{Qt::black, 2});
-    painter->setBrush(Qt::gray);
-    painter->drawPath(path);
+    // pin-outs
+    addPinOutAtCenterPoint(rect.width(), rect.height()/2, 0);
 }
 
 GraphicsNOTGate::GraphicsNOTGate(NOTGate *circuitComponent, QGraphicsItem *parent):
     GraphicsCircuitComponent(circuitComponent, parent)
 {
+    int sideLength = 40; // drawn as an equalitarel triangle
+    int radius = 5; // the "not" circle radius
+    const double SQRT3_2 = 0.86602540378443864676; // sqrt(3)/2 stored as constant
+    // Draw triangle
+    painterPath_.lineTo(sideLength*SQRT3_2, sideLength/2);
+    painterPath_.lineTo(0, sideLength);
+    painterPath_.lineTo(0,0);
+    // Draw "not" circle
+    painterPath_.moveTo(sideLength*SQRT3_2, sideLength/2);
+    painterPath_.addEllipse(sideLength*SQRT3_2, sideLength/2-radius, radius*2, radius*2);
 
+    generatePins();
 }
 
-QRectF GraphicsNOTGate::boundingRect() const {
-    return QRectF{0, 0, 52, 32};
+void GraphicsNOTGate::generatePins() {
+    QRectF rect = painterPath_.boundingRect();
+
+    // pin-ins
+    addPinInAtCenterPoint(0, rect.height()/2, 0);
+
+    // pin-outs
+    addPinOutAtCenterPoint(rect.width() + 2.5, rect.height()/2, 0);
 }
 
-QPainterPath GraphicsNOTGate::shape() const {
-    QPainterPath path{};
-    path.lineTo(50, 15);
-    path.lineTo(0, 30);
-    path.closeSubpath();
-    return path;
-}
-
-void GraphicsNOTGate::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    QPainterPath path{shape()};
-    painter->setPen(QPen{Qt::black, 2});
-    painter->setBrush(Qt::gray);
-    painter->drawPath(path);
-}

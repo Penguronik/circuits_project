@@ -4,14 +4,14 @@
 #include "Backend/components.cpp"
 #include "graphicscircuitcomponent.h"
 
-class GraphicsButtonPin : public QGraphicsEllipseItem
+class GraphicsButtonCircle : public QGraphicsEllipseItem
 {
 public:
 
     enum{Type = 0b10000000000000100};
     int type() const override {return Type; }
 
-    GraphicsButtonPin(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent = nullptr);
+    GraphicsButtonCircle(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent = nullptr);
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
@@ -27,15 +27,12 @@ public:
 
     GraphicsButtonComponent(ButtonComponent *circuitComponent = new ButtonComponent{}, QGraphicsItem *parent = nullptr);
 
-    virtual QRectF boundingRect() const override;
-    virtual QPainterPath shape() const override;
-
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-
     void setButtonState(bool state);
 
 private:
-    GraphicsButtonPin buttonPin_;
+    void generatePins();
+
+    GraphicsButtonCircle buttonCircle_;
 
 };
 
@@ -47,12 +44,10 @@ public:
     GraphicsCircuitIn(CircuitIn *circuitComponent, QGraphicsItem *parent = nullptr);
     GraphicsCircuitIn(int inSize, QGraphicsItem *parent = nullptr);
 
-    virtual QRectF boundingRect() const override;
-    virtual QPainterPath shape() const override;
-
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-
     void run(bool input[]);
+
+private:
+    void generatePins();
 
 };
 
@@ -64,10 +59,9 @@ public:
     GraphicsCircuitOut(CircuitOut *circuitComponent, QGraphicsItem *parent = nullptr);
     GraphicsCircuitOut(int outSize, QGraphicsItem *parent = nullptr);
 
-    virtual QRectF boundingRect() const override;
-    virtual QPainterPath shape() const override;
+private:
+    void generatePins();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 };
 
 

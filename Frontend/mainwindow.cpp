@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent):
 //    view_->hide();
 //    tree->show();
 
-    QAction *deleteAction = new QAction(QIcon(":/icons/delete.png"), tr("&Delete"), this); // thats how u set relative image path :)
+    QAction *deleteAction = new QAction(QIcon(":/icons/Trash_Icon.png"), tr("&Delete"), this); // thats how u set relative image path :)
     deleteAction->setShortcut(tr("Delete"));
     deleteAction->setStatusTip(tr("Delete item from diagram"));
     connect(deleteAction, &QAction::triggered, scene_, &Scene::deleteItems);

@@ -14,4 +14,4 @@ All objects after 0b11000000000000000 are children of GraphicsCircuitComponent
 0b10000000000000001: GraphicsPinIn
 0b10000000000000010: GraphicsPinOut
 0b10000000000000011: GraphicsWire
-0b10000000000000100: GraphicsButtonPin // I can likely deal with this in a better way by using the signal of item clicked or something? consider it and atleast rename it from button pin as that confuses it with the other pins
+0b10000000000000100: GraphicsButtonCircle

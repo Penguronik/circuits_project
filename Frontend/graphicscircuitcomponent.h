@@ -4,7 +4,6 @@
 //HEADERS
 #include "Backend/circuitcomponent.h"
 class GraphicsWire;
-#include "body.h"
 class GraphicsPinIn;
 class GraphicsPinOut;
 
@@ -29,13 +28,11 @@ public:
     ~GraphicsCircuitComponent();
 
     // Getters
-    virtual QRectF boundingRect() const override; // get rid of these overridden functions and make GraphicsCircuitComponent abstract/"virtual"
-    virtual QPainterPath shape() const override;
+    virtual QRectF boundingRect() const override;
+    QPainterPath shape() const override;
 
     // Public Functions
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    void generateInPins();
-    void generateOutPins();
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void updateStates();
     void updateWires();
     void run();
@@ -43,10 +40,13 @@ public:
 
 
 protected:
-    Body *body_;
+    void addPinInAtCenterPoint(qreal x, qreal y, int pinIndex);
+    void addPinOutAtCenterPoint(qreal x, qreal y, int pinIndex);
+
     QList<GraphicsPinIn*> pinInList_;
     QList<GraphicsPinOut*> pinOutList_;
     CircuitComponent *circuitComponent_;
+    QPainterPath painterPath_;
 
 };
 
