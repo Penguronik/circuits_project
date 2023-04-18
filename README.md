@@ -10,8 +10,8 @@
 
 # Examples/Gallery type thing
 
-# Explanation of Design Decisions
-As there are many classes that contain and call the functions of each other throughout the code, it might be hard to follow how I approached certain problems even with comments. Below I included a more comprehensive description of some of the more complex or significant parts of the code.
+# Design Decisions
+Below is a more comprehensive description of some of the more complex or significant parts of the code.
 ## Project Architecture
 To add: 
 - Picture of/some basic guidance of OOP and inheritances/containments architecture
