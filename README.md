@@ -56,7 +56,3 @@ When the delete keyword is called on a pin, the pin calles the delete keyword on
 3. When both wires and components are selected to be deleted at once, I go through the selected items and delete the wires first so that the components deleting any other wires connected to them does not cause dangling pointers.
 
 These actions that are applied to a frontend component or wire are also propogated to their backend counterparts in a similar fashion.
-
-# To Format:
-Icons from: https://spinningnumbers.org/a/logic-gates.html under Attribution-NonCommercial-ShareAlike license
-<a href="https://www.flaticon.com/free-icons/trash" title="trash icons">Trash icons created by Pixel perfect - Flaticon</a>
