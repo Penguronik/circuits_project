@@ -10,15 +10,15 @@
 
 # Examples/Gallery type thing
 
-# Explanation of Design Decisions
-As there are many classes that contain and call the functions of each other throughout the code, it might be hard to follow how I approached certain problems even with comments. Below I included a more comprehensive description of some of the more complex or significant parts of the code.
+# Design Decisions
+Below is a more comprehensive description of some of the more complex or significant parts of the code.
 ## Project Architecture
 To add: 
 - Picture of/some basic guidance of OOP and inheritances/containments architecture
 - Maybe turn the flow of a bit from input to output into a flowchart as well and make it horizontally progressing flowchart to make it look nicer on the screen
 
 #### Example: The flow of a bit from input to output
-1. The bit is taken from an input source and is stored as a state on a input component
+1. The bit is taken from an input source and is stored as a state on an input component
 2. The bit is moved into each wire connected to each pin-out
 3. The bit is moved from each wire to the pin-in of any component they are connected to
 4. The component runs any necessary computation on the bit and sets it to each pin-out's state
