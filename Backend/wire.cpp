@@ -3,7 +3,8 @@
 #include "Backend/pinout.h"
 
 Wire::Wire():
-    pinIn_{nullptr},  // INITIALIZE ALL POINTERS TO NULLPTR (I KNOW THERE ARE A LOT OF UNINITIALIZED POINTERS AND THEY ARE DANGEROUS RIGHT NOW
+    state_{false},
+    pinIn_{nullptr},
     pinOut_{nullptr}
 {
 

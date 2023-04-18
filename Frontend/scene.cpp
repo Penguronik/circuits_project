@@ -223,27 +223,15 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
     if (event->mimeData()->hasFormat("application/json")) {
         event->acceptProposedAction();
-        qDebug() << event->proposedAction();
-        event->setProposedAction(Qt::CopyAction);
-        qDebug() << event->proposedAction();
-//        event->acceptProposedAction();
-        qDebug() << event->proposedAction();
-        event->accept();
         qDebug() << "Drag Enter";
     }
 }
 
 void Scene::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
-//    if (event->mimeData()->hasFormat("application/json")) {
-//        qDebug() << event;
-//        event->acceptProposedAction();
-//    }
+    if (event->mimeData()->hasFormat("application/json")) {
+        event->acceptProposedAction();
+    }
 }
-
-//void Scene ::dragLeaveEvent(QGraphicsSceneDragDropEvent *event) {
-
-
-//}
 
 void Scene::dropEvent(QGraphicsSceneDragDropEvent *event) {
     qDebug() << "Drag Drop";

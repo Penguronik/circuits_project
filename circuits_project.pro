@@ -63,16 +63,11 @@ DISTFILES += \
     Frontend/types_reference
 
 resources.files = \
-    icons/AND_Gate.png \
-    icons/OR_Gate.png \
-    icons/NOT_Gate.png \
-    icons/NAND_Gate.png \
-    icons/NOR_Gate.png \
-    icons/XOR_Gate.png \
-    icons/XNOR_Gate.png \
-    icons/BUFFER_Gate.png \
-    icons/Trash_Icon.png \
-    icons/Folder_Icon.png # get screenshots of icons and use them for each circuit icon from dropdown
+    icons/not-gate.png \
+    icons/trash-solid.png \
+    icons/folder-solid.png \
+    icons/hand-paper-solid.png \
+    icons/object-group-solid.png
 resources.prefix = /
 
 RESOURCES = resources

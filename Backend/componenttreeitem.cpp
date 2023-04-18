@@ -1,6 +1,7 @@
 #include "componenttreeitem.h"
 
 ComponentTreeItem::ComponentTreeItem(ComponentTreeItem *parent):
+    childsList_{},
     parent_{parent}
 {
 
@@ -8,7 +9,7 @@ ComponentTreeItem::ComponentTreeItem(ComponentTreeItem *parent):
 
 ComponentTreeItem::~ComponentTreeItem() {
     qDeleteAll(childsList_);
-    childsList_.clear(); // use this as the destructor of all lists
+    childsList_.clear();
 }
 
 void ComponentTreeItem::appendChild(ComponentTreeItem *child) {
@@ -28,11 +29,12 @@ int ComponentTreeItem::childCount() const {
 }
 
 int ComponentTreeItem::row() const {
-//    qDebug() << this;
+    // to find the row of the item relative to the parent get the index that the item's parent holds of it
     if (parent_) {
         return parent_->childsList_.indexOf(const_cast<ComponentTreeItem *>(this));
     }
 
+    // if there is no parent then this item is the root item and is at row 0
     return 0;
 }
 
@@ -60,7 +62,8 @@ ComponentTreeItem *ComponentTreeItem::load(const QJsonObject& rootValue)
 
 
     QString key {"Base Gates"}; // "Base Gates"
-    QJsonArray array = rootValue.value(key).toArray(); // Base Gates Array //FOR some reason the constructor doesnt work but = does, investigate
+    QJsonArray array = rootValue.value(key).toArray(); // Base Gates Array
+    // ^ Important to keep this as assignment instead of constructor as constructor does not work as expected in this case
 
     ComponentTreeItem *baseGates {new ComponentTreeItem{rootItem}};
     rootItem->appendChild(baseGates);
@@ -69,7 +72,7 @@ ComponentTreeItem *ComponentTreeItem::load(const QJsonObject& rootValue)
     baseGates->setValue(array);
 
     int index {0};
-    for (const QJsonValue &v : array) { //switch to itertor for loop
+    for (const QJsonValue &v : array) { //switch to iterator for loop
         ComponentTreeItem *value {new ComponentTreeItem{baseGates}};
         baseGates->appendChild(value);
 
@@ -90,7 +93,7 @@ ComponentTreeItem *ComponentTreeItem::load(const QJsonObject& rootValue)
     utilityComponents->setValue(array);
 
     index = 0;
-    for (const QJsonValue &v : array) { //switch to itertor for loop
+    for (const QJsonValue &v : array) { //switch to iterator for loop
         ComponentTreeItem *value {new ComponentTreeItem{utilityComponents}};
         utilityComponents->appendChild(value);
 
@@ -111,7 +114,7 @@ ComponentTreeItem *ComponentTreeItem::load(const QJsonObject& rootValue)
     customComponents->setValue(array);
 
     index = 0;
-    for (const QJsonValue &v : array) { //switch to itertor for loop
+    for (const QJsonValue &v : array) { //switch to iterator for loop
         ComponentTreeItem *value {new ComponentTreeItem{customComponents}};
         customComponents->appendChild(value);
 

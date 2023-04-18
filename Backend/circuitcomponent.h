@@ -16,10 +16,16 @@ public:
     virtual ~CircuitComponent();
 
     // Abstract functions
+
+    // sets the pin out states based on the pin in states and the component's inner logic
     virtual void run() = 0;
 
     // Public functions
+
+    // sets pin in state to wire state
     void updateStates();
+
+    // sets wire state to pin out state
     void updateWires();
 
     // Getters
@@ -32,7 +38,7 @@ protected:
     int inSize_;
     int outSize_;
     PinIn *pinInArray_;
-    PinOut *pinOutArray_; // either switch this to QList or switch frontend to arrays, they represent the same information anyways
+    PinOut *pinOutArray_; // switch this to QList
 
 };
 

@@ -11,7 +11,8 @@
 #include <iostream>
 
 GraphicsPinBase::GraphicsPinBase(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent):
-    QGraphicsEllipseItem{0, 0, width, height, parent} // Original rectangle is set to 0, 0 in order to use pos() instead of boundingrect() to follow position
+    QGraphicsEllipseItem{0, 0, width, height, parent}, // Original rectangle is set to 0, 0 in order to use pos() instead of boundingrect() to follow position
+    wireList_{}
 {
     setPos(x, y);
     setAcceptHoverEvents(true);

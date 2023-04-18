@@ -8,6 +8,8 @@
 
 // Adapted from https://github.com/dridk/QJsonModel
 
+// The items are treated in a tree like system with each item holding reference to their children and parent
+
 class ComponentTreeItem
 {
 public:
@@ -28,6 +30,7 @@ public:
 private:
     QString key_;
     QVariant value_;
+    // all direct children are tracked in a list
     QList<ComponentTreeItem *> childsList_;
     ComponentTreeItem *parent_;
 };

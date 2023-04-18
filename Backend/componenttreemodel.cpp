@@ -66,9 +66,6 @@ Qt::ItemFlags ComponentTreeModel::flags(const QModelIndex &index) const {
 
 QVariant ComponentTreeModel::data(const QModelIndex &index, int role) const {
 
-//    qDebug() << "Role: " << role;
-//    qDebug() << "Index Validity: " << index.isValid();
-
     if (!index.isValid()) {
         return QVariant{};
     }
@@ -77,9 +74,9 @@ QVariant ComponentTreeModel::data(const QModelIndex &index, int role) const {
 
     if (role == Qt::DecorationRole) {
         if (item->parent() == rootItem_) {
-            return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/Folder_Icon.png"}.scaled(QSize{25, 25}, Qt::KeepAspectRatio);
+            return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/folder-solid.png"}.scaled(QSize{25, 25}, Qt::KeepAspectRatio);
         }
-        return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/Component_Icon.png"}.scaled(QSize{30, 30}, Qt::KeepAspectRatio);
+        return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/not-gate.png"}.scaled(QSize{30, 30}, Qt::KeepAspectRatio);
     }
 
 
@@ -91,7 +88,7 @@ QVariant ComponentTreeModel::data(const QModelIndex &index, int role) const {
             }
 
             if (item->parent()->key() == "Custom Components") {
-                return item->value().toJsonObject().value("Name");
+                return item->value().toJsonObject().value("Name"); // When adding custom component functionality, switch this to return the key instead as it will be more useful than just the name
             }
 
             return item->value();
@@ -137,6 +134,8 @@ int ComponentTreeModel::columnCount(const QModelIndex &parent) const {
 bool ComponentTreeModel::setData(const QModelIndex &index, const QVariant &value, int role) {
 
     int col = index.column();
+    // only edits item data if permitted, currently no items permit it and is therefore a disabled feature
+    // will be important when incorporating custom items
     if (role == Qt::EditRole) {
         if (col == 1) {
             ComponentTreeItem *item = static_cast<ComponentTreeItem *>(index.internalPointer());
@@ -150,9 +149,6 @@ bool ComponentTreeModel::setData(const QModelIndex &index, const QVariant &value
 }
 
 bool ComponentTreeModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role) {
-    //when true:
-    // emit headerDataChanged()
-
     return false;
 }
 

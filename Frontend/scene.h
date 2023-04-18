@@ -47,8 +47,6 @@ private:
     GraphicsPinOut *currentPinOut_;
     GraphicsWire *currentWire_;
     QList<GraphicsCircuitComponent*> componentList_;
-    GraphicsCircuitIn *GraphicsCircuitIn_;
-    GraphicsCircuitOut *GraphicsCircuitOut_;
     QBasicTimer timer_;
 };
 

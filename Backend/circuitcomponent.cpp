@@ -16,14 +16,12 @@ CircuitComponent::~CircuitComponent(){
     pinOutArray_ = nullptr;
 }
 
-// Sets pin in state to wire state
 void CircuitComponent::updateStates() {
     for (int i{0}; i < inSize_; i++) {
         pinInArray_[i].updateState();
     }
 }
 
-// Sets wire state to pin out state
 void CircuitComponent::updateWires() {
     for (int i{0}; i < outSize_; i++) {
         pinOutArray_[i].updateWire();
