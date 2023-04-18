@@ -2,11 +2,12 @@
 
 ## Next Steps
 - [X] ~~*ADD the --- stuff you have done*~~
+- [ ] Increase customization of GPIO interfacing components
 - [ ] Add time/tick control
 - [ ] Add more components (clock, delay, LED)
 - [ ] Add custom component saving and placing
 - [ ] Add save file system
-- [ ] Add support for analog input and AD/DA converters
+- [ ] Add support for analog input and ADC/DAC components
 
 # Examples/Gallery type thing
 
