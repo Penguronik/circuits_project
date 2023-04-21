@@ -42,7 +42,7 @@ public:
     int type() const override {return Type; }
 
     GraphicsCircuitIn(CircuitIn *circuitComponent, QGraphicsItem *parent = nullptr);
-    GraphicsCircuitIn(int inSize, QGraphicsItem *parent = nullptr);
+    GraphicsCircuitIn(gpiod_chip *chip, int inSize, QGraphicsItem *parent = nullptr);
 
     void run(bool input[]);
 
@@ -57,7 +57,7 @@ public:
     int type() const override {return Type; }
 
     GraphicsCircuitOut(CircuitOut *circuitComponent, QGraphicsItem *parent = nullptr);
-    GraphicsCircuitOut(int outSize, QGraphicsItem *parent = nullptr);
+    GraphicsCircuitOut(gpiod_chip *chip, int outSize, QGraphicsItem *parent = nullptr);
 
 private:
     void generatePins();

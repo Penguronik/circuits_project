@@ -12,7 +12,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QIODevice>
-//#include <gpiod.h>
 
 Scene::Scene(QObject *parent):
     QGraphicsScene{parent},
@@ -20,7 +19,8 @@ Scene::Scene(QObject *parent):
     currentPinOut_{nullptr},
     currentWire_{nullptr},
     componentList_{},
-    timer_{}
+    timer_{},
+    chip_{gpiod_chip_open_by_name("gpiochip0")}
 {
 //    gpiod_chip *chip;
 //    gpiod_line *lineOut1;
@@ -42,8 +42,8 @@ Scene::Scene(QObject *parent):
 
 
     timer_.start(15, this);
-    GraphicsCircuitIn *beginningGraphicsCircuitIn = new GraphicsCircuitIn{2};
-    GraphicsCircuitOut *beginningGraphicsCircuitOut = new GraphicsCircuitOut{1};
+    GraphicsCircuitIn *beginningGraphicsCircuitIn = new GraphicsCircuitIn{chip_, 3};
+    GraphicsCircuitOut *beginningGraphicsCircuitOut = new GraphicsCircuitOut{chip_, 3};
     addItem(beginningGraphicsCircuitIn);
     addItem(beginningGraphicsCircuitOut);
     addComponent(beginningGraphicsCircuitIn);
@@ -51,14 +51,14 @@ Scene::Scene(QObject *parent):
 }
 
 void Scene::updateComponents() {
-    bool circuitInput[2]{true, false};
+//    bool circuitInput[2]{true, false};
     QList<GraphicsCircuitComponent*>::const_iterator i{};
-    for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
-        GraphicsCircuitIn *circuitIn = qgraphicsitem_cast<GraphicsCircuitIn *>(*i);
-        if (circuitIn) {
-            circuitIn->run(circuitInput);
-        }
-    }
+//    for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
+//        GraphicsCircuitIn *circuitIn = qgraphicsitem_cast<GraphicsCircuitIn *>(*i);
+//        if (circuitIn) {
+//            circuitIn->run(circuitInput);
+//        }
+//    }
 
     for (i = componentList().constBegin(); i != componentList().constEnd(); ++i) {
         (*i)->updateStates();
@@ -92,11 +92,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         QList<QGraphicsItem*> candidateItems {items(event->scenePos())};
         QList<QGraphicsItem*>::const_iterator i{};
         for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
-    //        std::cout << (*i)->type() << std::endl;
             // Take the first item that is not a wire and cast it to currentPin if it is a Pin
 
             if (( (*i)->type() != GraphicsWire::Type )) {
-                // FIX COMMENTS THIS IS WRONG: Cast to GraphicsPinIn if it is a pinIn, GraphicsPinOut if it is a pin out, and nullptr otherwise
+                // Cast to GraphicsPinIn if it is a pinIn, GraphicsPinOut if it is a pin out
                 if ( (*i)->type() == GraphicsPinIn::Type ) {
                     currentPinIn_ = qgraphicsitem_cast<GraphicsPinIn *>(*i);
                 } else if ( (*i)->type() == GraphicsPinOut::Type ) {
@@ -106,10 +105,9 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             }
         }
 
-        // If currentPin exists, create a wire that starts at the Pin's center
+        // If currentPinIn exists, create a wire that starts at the pin's center
         if (currentPinIn_) {
-            // so that rubber band isnt used
-            event->setAccepted(true);
+            event->setAccepted(true); // so that rubber band isnt used
             clearSelection(); // clears selected items as the mouse click is accepted
 
             currentWire_ = new GraphicsWire{};
@@ -120,8 +118,9 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             currentWire_->setStyle(GraphicsWire::NotAttached);
 
             addItem(currentWire_);
+        // Else if currentPinOut exists, create a wire that starts at the pin's center
         } else if (currentPinOut_) {
-            event->setAccepted(true);
+            event->setAccepted(true); // so that rubber band isnt used
             clearSelection(); // clears selected items as the mouse click is accepted
 
             currentWire_ = new GraphicsWire{};
@@ -282,9 +281,9 @@ GraphicsCircuitComponent *Scene::createComponent(QString componentType) {
     } else if (componentType == "AND Gate") {
         return new GraphicsANDGate{};
     } else if (componentType == "Circuit In") {
-        return new GraphicsCircuitIn{1};
+        return new GraphicsCircuitIn{chip_, 3};
     } else if (componentType == "Circuit Out") {
-        return new GraphicsCircuitOut{1};
+        return new GraphicsCircuitOut{chip_, 3};
     } else if (componentType == "Button") {
         return new GraphicsButtonComponent{};
     }

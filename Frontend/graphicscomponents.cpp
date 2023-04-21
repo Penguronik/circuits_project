@@ -51,8 +51,8 @@ GraphicsCircuitIn::GraphicsCircuitIn(CircuitIn *circuitComponent, QGraphicsItem 
     generatePins();
 }
 
-GraphicsCircuitIn::GraphicsCircuitIn(int inSize, QGraphicsItem *parent):
-    GraphicsCircuitIn(new CircuitIn{inSize}, parent)
+GraphicsCircuitIn::GraphicsCircuitIn(gpiod_chip *chip, int inSize, QGraphicsItem *parent):
+    GraphicsCircuitIn(new CircuitIn{chip, inSize}, parent)
 {
 
 }
@@ -83,8 +83,8 @@ GraphicsCircuitOut::GraphicsCircuitOut(CircuitOut *circuitComponent, QGraphicsIt
     generatePins();
 }
 
-GraphicsCircuitOut::GraphicsCircuitOut(int outSize, QGraphicsItem *parent):
-    GraphicsCircuitOut(new CircuitOut{outSize}, parent)
+GraphicsCircuitOut::GraphicsCircuitOut(gpiod_chip *chip, int outSize, QGraphicsItem *parent):
+    GraphicsCircuitOut(new CircuitOut{chip, outSize}, parent)
 {
 
 }

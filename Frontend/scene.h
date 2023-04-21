@@ -48,6 +48,7 @@ private:
     GraphicsWire *currentWire_;
     QList<GraphicsCircuitComponent*> componentList_;
     QBasicTimer timer_;
+    gpiod_chip *chip_;
 };
 
 #endif // SCENE_H

@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "view.h"
 #include <QMainWindow>
+#include <gpiod.h>
 
 //QT
 #include <QWidget>
