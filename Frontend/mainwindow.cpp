@@ -19,8 +19,7 @@
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow{parent},
     scene_{new Scene{this}},
-    view_{new View(scene_, this)},
-    chip_{gpiod_chip_open_by_name("gpiochip0")}
+    view_{new View(scene_, this)}
 {
 
 //    QFrame *frame = new QFrame{};
