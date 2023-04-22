@@ -38,6 +38,8 @@ To add:
 7. The bit is moved from the wire to the output component
 8. The bit is moved from the output component to an output source
 
+![bit movement example](https://user-images.githubusercontent.com/35043400/233769762-32e0a84b-103f-4483-9246-213770fdba8a.png)
+
 ### Maintaining simultaneity
 Simultaneity is maintained throughout the circuit by enacting every step to each component before moving on to the next step. These steps are:
 1. Move state from the pin-in wires to each pin-in's state
