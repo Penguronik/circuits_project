@@ -9,7 +9,7 @@ ComponentTreeModel::ComponentTreeModel(QObject *parent):
     loadFile_{},
     loadDoc_{}
 {
-    loadFile_.setFileName("C:/Users/ronik/Programming/Qt/circuits_project/Backend/SavedComponents.json");
+    loadFile_.setFileName(":/Backend/SavedComponents.json");
     load();
 
 }
@@ -74,9 +74,9 @@ QVariant ComponentTreeModel::data(const QModelIndex &index, int role) const {
 
     if (role == Qt::DecorationRole) {
         if (item->parent() == rootItem_) {
-            return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/folder-solid.png"}.scaled(QSize{25, 25}, Qt::KeepAspectRatio);
+            return QPixmap{":/icons/folder-solid.png"}.scaled(QSize{25, 25}, Qt::KeepAspectRatio);
         }
-        return QPixmap{"C:/Users/ronik/Programming/Qt/circuits_project/icons/not-gate.png"}.scaled(QSize{30, 30}, Qt::KeepAspectRatio);
+        return QPixmap{":/icons/not-gate.png"}.scaled(QSize{30, 30}, Qt::KeepAspectRatio);
     }
 
 

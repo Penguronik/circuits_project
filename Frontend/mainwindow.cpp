@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent):
     scrollDragAction->setStatusTip(tr("Drag to move"));
     connect(scrollDragAction, &QAction::triggered, view_, &View::setDragToScroll);
 
-    QAction *bandDragAction = new QAction{QIcon(":/icons/object-group-solid"), tr("&Select"), this};
+    QAction *bandDragAction = new QAction{QIcon(":/icons/object-group-solid.png"), tr("&Select"), this};
     bandDragAction->setShortcut(tr("Ctrl + S"));
     bandDragAction->setStatusTip(tr("Drag to select"));
     connect(bandDragAction, &QAction::triggered, view_, &View::setDragToBand);

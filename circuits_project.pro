@@ -67,7 +67,8 @@ resources.files = \
     icons/trash-solid.png \
     icons/folder-solid.png \
     icons/hand-paper-solid.png \
-    icons/object-group-solid.png
+    icons/object-group-solid.png \
+    Backend/SavedComponents.json
 resources.prefix = /
 
 RESOURCES = resources
