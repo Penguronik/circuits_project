@@ -23,10 +23,6 @@ public:
     // Destructors
     virtual ~GraphicsPinBase();
 
-    // Events
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-
     // Getters
     virtual bool state() const = 0;
 
