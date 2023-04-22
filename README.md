@@ -8,7 +8,7 @@
 Although this code is meant to be compiled on to a Raspberry Pi, it is possible to compile an older version of the codebase on a computer. This version might have certain missing features but does have a completely functional logic gate simulator. It can be found at the branch [circuits_project/tree/non-gpio](https://github.com/Penguronik/circuits_project/tree/non-gpio). Once you have this version of the code downloaded, you will need to install [Qt and Qt Creator](https://www.qt.io/download-qt-installer-oss). Then, you can open the .pro file from within Qt Creator and compile/run the program.
 
 ### Cross-compilation
-*This section is for compiling on to the Raspberry Pi, to compile on a computer see [Compilation](#compilation).*
+*This section is for cross-compiling on to the Raspberry Pi, to compile on a computer see [Compilation](#compilation).*
 
 This code was only tested on a Raspberry Pi 4B, so even though it should work on other Raspberry Pi versions, that is the only one I can recommend. In order to cross-compile to a Raspberry Pi, you will need a computer or a virtual machine running linux. To avoid any compatibility issues, I would recommend using Linux 20.04.  As there is already a comprehensive [guide on how to cross-compile a Qt project to the Raspberry Pi here](https://wiki.qt.io/Cross-Compile_Qt_6_for_Raspberry_Pi) I will not be going over each step. Instead, you can follow that guide with one difference:
 - When installing all of the dependenices onto the Raspberry Pi in the initial setup steps, also install the libgpiod library with `sudo apt-get install gpiod libgpiod-dev`
