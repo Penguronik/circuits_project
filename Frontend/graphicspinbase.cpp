@@ -35,21 +35,6 @@ GraphicsPinBase::~GraphicsPinBase() {
     wireList_.clear(); // this clear should be unnecessary realistically because the wire deletes should clear all occurences of every wire from the list anyways
 }
 
-void GraphicsPinBase::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
-    Q_UNUSED (event); // INCLUDE Q_UNUSED WHENEVER NEEDED
-    QBrush tempBrush = brush();
-    tempBrush.setColor(QColor{Qt::green}.lighter(150));
-    setBrush(tempBrush);
-    update();
-}
-
-void GraphicsPinBase::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
-    QBrush tempBrush = brush();
-    tempBrush.setColor(Qt::green);
-    setBrush(tempBrush);
-    update();
-}
-
 void GraphicsPinBase::addWire(GraphicsWire *wire) {
     wireList_.append(wire);
 }

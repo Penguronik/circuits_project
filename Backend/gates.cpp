@@ -44,25 +44,16 @@ public:
 
 };
 
-class CircuitIO : public CircuitComponent {
+class XORGate : public CircuitComponent {
 public:
-
-    CircuitIO(int inSize, int outSize):
-        CircuitComponent{inSize, outSize}
+    XORGate():
+        CircuitComponent{2,1}
     {
 
     }
 
     virtual void run() override {
-        for (int i{}; i < inSize_; i++) {
-//            qDebug() << pinInArray_[i].state();
-        }
-    }
-
-    void run(bool input[]) {
-        for (int i{}; i < outSize_; i++) {
-            pinOutArray_[i].setState(input[i]);
-        }
+        pinOutArray_[0].setState(pinInArray_[0].state() ^ pinInArray_[1].state());
     }
 
 };

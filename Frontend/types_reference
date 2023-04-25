@@ -9,6 +9,7 @@ All objects after 0b11000000000000000 are children of GraphicsCircuitComponent
 0b11000000000000100: GraphicsCircuitIn
 0b11000000000000101: GraphicsCircuitOut
 0b11000000000000110: GraphicsButtonComponent
+0b11000000000000111: GraphicsXORGate
 
 0b10000000000000000: GraphicsPinBase
 0b10000000000000001: GraphicsPinIn

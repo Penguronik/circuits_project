@@ -287,6 +287,8 @@ GraphicsCircuitComponent *Scene::createComponent(QString componentType) {
         return new GraphicsCircuitOut{1};
     } else if (componentType == "Button") {
         return new GraphicsButtonComponent{};
+    } else if (componentType == "XOR Gate") {
+        return new GraphicsXORGate{};
     }
 
     return nullptr;

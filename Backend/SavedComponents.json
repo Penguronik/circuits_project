@@ -1,5 +1,5 @@
 {
-    "Base Gates" : ["NOT Gate", "OR Gate", "AND Gate"],
+    "Base Gates" : ["NOT Gate", "OR Gate", "AND Gate" , "XOR Gate"],
 
     "Utility Components" : ["Circuit In", "Circuit Out", "Button"],
 
