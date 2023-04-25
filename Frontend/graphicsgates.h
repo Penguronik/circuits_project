@@ -66,8 +66,8 @@ public:
 
 private:
     void generatePins();
-    QPainterPath xorArc;
-    int xorDist;
+    QPainterPath xorArc_;
+    int xorDist_;
 };
 
 #endif // GRAPHICSGATES_H

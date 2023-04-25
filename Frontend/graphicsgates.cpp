@@ -111,50 +111,50 @@ GraphicsXORGate::GraphicsXORGate(XORGate *circuitComponent, QGraphicsItem *paren
     GraphicsCircuitComponent(circuitComponent, parent)
 {
     int radius = 35; // constructed from three arcs of the same radius
-    xorDist = 10; // distance of xor line from rest of gate
+    xorDist_ = 10; // distance of xor line from rest of gate
     QPainterPath arc1 {};
     QPainterPath arc2 {};
     // Draw XOR arc    \
     //                 /
     //
-    xorArc.arcMoveTo(0, 0, 2*radius, 2*radius, 30);
-    xorArc.arcTo(0, 0, 2*radius, 2*radius, 30, -60);
+    xorArc_.arcMoveTo(0, 0, 2*radius, 2*radius, 30);
+    xorArc_.arcTo(0, 0, 2*radius, 2*radius, 30, -60);
     //
     // Draw left arc   \\
     //                 //
     //
-    arc2.arcMoveTo(xorDist, 0, 2*radius + xorDist, 2*radius, 30);
-    arc2.arcTo(xorDist, 0, 2*radius + xorDist, 2*radius, 30, -60);
+    arc2.arcMoveTo(xorDist_, 0, 2*radius + xorDist_, 2*radius, 30);
+    arc2.arcTo(xorDist_, 0, 2*radius + xorDist_, 2*radius, 30, -60);
     //
     // Draw top arc    \\ \
     //                 //
     //
-    arc1.arcMoveTo(1.25*radius + xorDist, 0.5*radius, 2*radius + xorDist, 2*radius, 30);
-    arc1.arcTo(1.25*radius + xorDist, 0.5*radius, 2*radius + xorDist, 2*radius, 30, 60);
+    arc1.arcMoveTo(1.25*radius + xorDist_, 0.5*radius, 2*radius + xorDist_, 2*radius, 30);
+    arc1.arcTo(1.25*radius + xorDist_, 0.5*radius, 2*radius + xorDist_, 2*radius, 30, 60);
     //
     // Draw bottom arc \\ \
     //                 // /
     //
-    painterPath_.arcMoveTo(1.25*radius + xorDist, -0.5*radius, 2*radius + xorDist, 2*radius, -90);
-    painterPath_.arcTo(1.25*radius + xorDist, -0.5*radius, 2*radius + xorDist, 2*radius, -90, 60);
+    painterPath_.arcMoveTo(1.25*radius + xorDist_, -0.5*radius, 2*radius + xorDist_, 2*radius, -90);
+    painterPath_.arcTo(1.25*radius + xorDist_, -0.5*radius, 2*radius + xorDist_, 2*radius, -90, 60);
     //                  __
     // Connect arcs    \\ \
     // with lines      //_/
     //
     arc1.connectPath(arc2);
     painterPath_.connectPath(arc1);
-    painterPath_.lineTo(2.25*radius + 1.5*xorDist, 1.5*radius); // This part may not be pixel perfect
+    painterPath_.lineTo(2.25*radius + 1.5*xorDist_, 1.5*radius); // This part may not be pixel perfect
 
     // Translate path such that (0, 0) is it's top left corner
-    painterPath_.translate(-painterPath_.boundingRect().x() + xorDist, -painterPath_.boundingRect().y());
-    xorArc.translate(-xorArc.boundingRect().x(), -xorArc.boundingRect().y());
+    painterPath_.translate(-painterPath_.boundingRect().x() + xorDist_, -painterPath_.boundingRect().y());
+    xorArc_.translate(-xorArc_.boundingRect().x(), -xorArc_.boundingRect().y());
 
     generatePins();
 }
 
 QRectF GraphicsXORGate::boundingRect() const {
     // Add 2 on each side of the rectangle for buffer for default pen size of 4 (+4 on width with -2 top x means +2 on bottom x)
-    return QRectF{-2, -2, painterPath_.boundingRect().width() + xorDist + 4, painterPath_.boundingRect().height() + 4};
+    return QRectF{-2, -2, painterPath_.boundingRect().width() + xorDist_ + 4, painterPath_.boundingRect().height() + 4};
 }
 
 QPainterPath GraphicsXORGate::shape() const {
@@ -171,11 +171,11 @@ void GraphicsXORGate::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     }
     painter->drawPath(painterPath_);
     painter->setBrush(Qt::transparent);
-    painter->drawPath(xorArc);
+    painter->drawPath(xorArc_);
 }
 
 void GraphicsXORGate::generatePins() {
-    QRectF rect = QRectF{0, 0, painterPath_.boundingRect().width() + xorDist, painterPath_.boundingRect().height()};;
+    QRectF rect = QRectF{0, 0, painterPath_.boundingRect().width() + xorDist_, painterPath_.boundingRect().height()};;
 
     // pin-ins
     qreal interval {rect.height()/4};
