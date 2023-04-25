@@ -59,7 +59,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    Backend/SavedComponents.json \
+    SavedComponents.json \
+    CMakeLists.txt \
     Frontend/types_reference
 
 resources.files = \

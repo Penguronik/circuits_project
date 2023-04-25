@@ -43,7 +43,6 @@ set(resource_files
     "icons/folder-solid.png"
     "icons/hand-paper-solid.png"
     "icons/object-group-solid.png"
-    "Backend/SavedComponents.json"
 )
 
 qt_add_resources(circuits_project "resources"
