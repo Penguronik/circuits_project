@@ -47,4 +47,27 @@ private:
     void generatePins();
 };
 
+class GraphicsXORGate : public GraphicsCircuitComponent
+{
+public:
+
+    // Qt Type
+    enum{Type = 0b11000000000000111};
+    int type() const override { return Type; }
+
+    GraphicsXORGate(XORGate *circuitComponent = new XORGate{}, QGraphicsItem *parent = nullptr);
+
+    // Getters
+    virtual QRectF boundingRect() const override;
+    QPainterPath shape() const override;
+
+    // Public Functions
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+private:
+    void generatePins();
+    QPainterPath xorArc_;
+    int xorDist_;
+};
+
 #endif // GRAPHICSGATES_H
