@@ -1,6 +1,18 @@
 # circuits_project
 
-// Put a bunch of examples/gallery here
+A graphical digital circuit simulator that seamlessly connects to real world circuitry through Raspberry Pi GPIO pins for advanced prototyping and testing. Users can create and simulate a circuit using the logic gates and components provided. Then, they can create complex testing scenarios or prototype by connecting digital logic to their real world circuitry.
+
+---
+
+| ![SR-LATCH](https://user-images.githubusercontent.com/35043400/234158479-99233696-5fb5-4df7-9d24-e46aa43f7a7f.gif) | 
+|:--:| 
+| *Making an SR-Latch* |
+
+
+
+
+
+---
 
 ### Compilation
 *This section is for compiling on a computer without GPIO functionality, to compile on to the Raspberry Pi with GPIO functionaly see [Cross-compilation](#cross-compilation).*
