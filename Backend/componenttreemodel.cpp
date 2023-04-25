@@ -9,7 +9,7 @@ ComponentTreeModel::ComponentTreeModel(QObject *parent):
     loadFile_{},
     loadDoc_{}
 {
-    loadFile_.setFileName("C:/Users/ronik/Programming/Qt/circuits_project/Backend/SavedComponents.json");
+    loadFile_.setFileName("SavedComponents.json");
     load();
 
 }
@@ -28,8 +28,20 @@ bool ComponentTreeModel::load() {
 
     loadDoc_ = QJsonDocument::fromJson(loadFile_.readAll());
 
+    // Set default file if file is empty
     if (loadDoc_.isNull()) {
-        return false;
+        loadFile_.write("{\r\n    "
+                        "\"Base Gates\" : [\"NOT Gate\", \"OR Gate\", \"AND Gate\" , \"XOR Gate\"],\r\n\r\n    "
+                        "\"Utility Components\" : [\"Circuit In\", \"Circuit Out\", \"Button\"],\r\n\r\n    "
+                        "\"Custom Components\" : [\r\n        {\r\n            "
+                        "   \"Name\" : \"Test\",\r\n            "
+                        "   \"Backend\" : [\r\n                {\r\n                    "
+                        "       \"Base\" : \"IO\",\r\n                    "
+                        "       \"Out Pins\" : [[1]]\r\n                },\r\n                {\r\n                    "
+                        "       \"Base\" : \"NOT\",\r\n                    "
+                        "       \"Out Pins\" : [[0]]\r\n                }\r\n            ]\r\n        }\r\n\r\n\r\n    ]\r\n}\r\n");
+        loadFile_.reset(); // reset parser to be read
+        loadDoc_ = QJsonDocument::fromJson(loadFile_.readAll());
     }
 
     qDebug() << loadDoc_.toJson();

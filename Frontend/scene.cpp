@@ -93,10 +93,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         QList<QGraphicsItem*>::const_iterator i{};
         for (i = candidateItems.constBegin(); i != candidateItems.constEnd(); ++i) {
     //        std::cout << (*i)->type() << std::endl;
-            // Take the first item that is not a wire and cast it to currentPin if it is a Pin
 
+            // Take the first item that is not a wire and cast it to currentPin if it is a Pin
             if (( (*i)->type() != GraphicsWire::Type )) {
-                // FIX COMMENTS THIS IS WRONG: Cast to GraphicsPinIn if it is a pinIn, GraphicsPinOut if it is a pin out, and nullptr otherwise
+                // Cast to GraphicsPinIn if it is a pinIn, GraphicsPinOut if it is a pin out
                 if ( (*i)->type() == GraphicsPinIn::Type ) {
                     currentPinIn_ = qgraphicsitem_cast<GraphicsPinIn *>(*i);
                 } else if ( (*i)->type() == GraphicsPinOut::Type ) {
@@ -106,10 +106,9 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             }
         }
 
-        // If currentPin exists, create a wire that starts at the Pin's center
+        // If currentPinIn exists, create a wire that starts at the pin's center
         if (currentPinIn_) {
-            // so that rubber band isnt used
-            event->setAccepted(true);
+            event->setAccepted(true); // so that rubber band isnt used
             clearSelection(); // clears selected items as the mouse click is accepted
 
             currentWire_ = new GraphicsWire{};
@@ -120,8 +119,9 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             currentWire_->setStyle(GraphicsWire::NotAttached);
 
             addItem(currentWire_);
+        // Else if currentPinOut exists, create a wire that starts at the pin's center
         } else if (currentPinOut_) {
-            event->setAccepted(true);
+            event->setAccepted(true); // so that rubber band isnt used
             clearSelection(); // clears selected items as the mouse click is accepted
 
             currentWire_ = new GraphicsWire{};
