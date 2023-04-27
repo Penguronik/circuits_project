@@ -5,9 +5,9 @@ A graphical digital circuit simulator that seamlessly connects to real world cir
 ---
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/35043400/234158479-99233696-5fb5-4df7-9d24-e46aa43f7a7f.gif" width="70%">
+  <img src="https://user-images.githubusercontent.com/35043400/234158479-99233696-5fb5-4df7-9d24-e46aa43f7a7f.gif" width="80%">
   <p><em>Making an SR-Latch</em></p>
-  <img src="https://user-images.githubusercontent.com/35043400/234761476-9e3c98ec-41fb-48cc-8010-d49177f39da3.gif" width="70%">
+  <img src="https://user-images.githubusercontent.com/35043400/234761476-9e3c98ec-41fb-48cc-8010-d49177f39da3.gif" width="80%">
   <p><em>A Full Adder with real life input and output</em></p>
 </div>
 
@@ -37,9 +37,6 @@ This code was only tested on a Raspberry Pi 4B, so even though it should work on
 # Design Decisions
 Below is a more comprehensive description of some of the more complex or significant parts of the code.
 ## Project Architecture
-To add: 
-- Picture of/some basic guidance of OOP and inheritances/containments architecture
-- Maybe turn the flow of a bit from input to output into a flowchart as well and make it horizontally progressing flowchart to make it look nicer on the screen
 
 ### Example: The flow of a bit from input to output
 1. The bit is taken from an input source and is stored as a state on an input component
@@ -67,7 +64,9 @@ In order to allow for the creation of several components that all interface with
 ### Component creation
 The frontend objects have a reference to them stored in the scene object. The scene object has two lists, one only for components that I maintain, and one for adding objects for the Qt framework to display on the scene. Before a frontend object is deleted, it is removed from these two lists to avoid dangling pointers. In most cases the frontend component is responsible for creating the backend component. In some more complex cases such as the creation and connection of frontend and backend pins an approach similar to the one outlined in the flowchart below is taken. This allows the backend component to be responsible for creating the backend pins while still creating a connection between the frontend and backend pins.
 
-<img src="https://user-images.githubusercontent.com/35043400/224468664-ab5f7433-6c5c-41c6-a5bf-71fd1d1164d3.png" width="650" height="550">
+<div align=center>
+  <img src="https://user-images.githubusercontent.com/35043400/234771767-76b6abe9-bb9c-4377-8d1a-caf103bd4dfc.png" width="650" height="550">
+</div>
 
 ### Component frontend/backend relationship
 The frontend objects (often labeled with the prefix "graphics") all contain a pointer to their backend counterparts. 
