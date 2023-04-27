@@ -5,12 +5,11 @@ A graphical digital circuit simulator that seamlessly connects to real world cir
 ---
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/35043400/234158479-99233696-5fb5-4df7-9d24-e46aa43f7a7f.gif" width="80%">
+  <img src="https://user-images.githubusercontent.com/35043400/234158479-99233696-5fb5-4df7-9d24-e46aa43f7a7f.gif" width="70%">
   <p><em>Making an SR-Latch</em></p>
-  <img src="https://user-images.githubusercontent.com/35043400/234158479-99233696-5fb5-4df7-9d24-e46aa43f7a7f.gif" width="100%">
-  <p><em>Making an SR-Latch</em></p>
+  <img src="https://user-images.githubusercontent.com/35043400/234761476-9e3c98ec-41fb-48cc-8010-d49177f39da3.gif" width="70%">
+  <p><em>A Full Adder with real life input and output</em></p>
 </div>
-
 
 
 
